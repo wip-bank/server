@@ -6,8 +6,6 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.sun.jmx.snmp.Timestamp;
-
 @XmlRootElement
 public class Transaction {
     private int id;
@@ -15,7 +13,7 @@ public class Transaction {
     private Account receiver;
     private BigDecimal amount;
     private String reference;
-    private Timestamp transactionDate; // siehe Schnittstellen/Aufrufbeispiele -> Timestamp: "transactionDate" : "2016-03-11T17:08:14+0100"
+    private Date transactionDate;
 
     @XmlTransient
     public int getId() {
@@ -58,11 +56,11 @@ public class Transaction {
         this.reference = reference;
     }
 
-    public Timestamp getTransactionDate() {
+    public Date getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Timestamp transactionDate) {
+    public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
 
