@@ -5,7 +5,7 @@ package de.fhdw.wipbank.server.service;
  */
 public interface Service<T> {
     void createTable() throws Exception;
-//    void create(T object);
+    void create(T object) throws Exception;
 //    T findById(T object);
 //    T update(T object);
 }
