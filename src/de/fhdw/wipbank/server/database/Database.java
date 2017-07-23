@@ -1,12 +1,11 @@
 package de.fhdw.wipbank.server.database;
 
-import java.sql.*;
-import java.util.LinkedList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
-
-
-import de.fhdw.wipbank.server.model.Account;
 
 public class Database {
 
@@ -14,8 +13,8 @@ public class Database {
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
         ResultSet result = statement.executeQuery(sql);
-        statement.close();
-        connection.close();
+        //statement.close();
+        //connection.close();
         return result;
     }
 
@@ -60,34 +59,6 @@ public class Database {
         properties.put("user", "user");
         return properties;
     }
-    
-  //Gibt eine Liste von Accounts
-  	public static List<Account> getAccounts() throws SQLException {
-  		//Aufbau einer Verbindung zur Datenbank
-  		Connection connection = getConnection();
-  		Statement statement = connection.createStatement();
-  		String sql = "SELECT * FROM account";
-  		//Absetzen eines SQL-Statements, um alle Accounts aus der Datenbank zu lesen
-  		ResultSet resultSet = statement.executeQuery(sql);
-  		System.out.println("Table account:");
-  		//Erstellung einer Liste, in der alle Accounts aus der Datenbank gesammelt werden sollen
-  		List<Account> accountList = new LinkedList<Account>();
-  		while (resultSet.next()) {
-  			//Für jeden Tabelleneintrag in der Datenbank, wird ein neues Studenten-Objekt erstellt
-  			//und mit den Daten aus dem Eintrag befüllt
-  			Account account = new Account();
-  			account.setId(resultSet.getInt(1));
-  			account.setOwner(resultSet.getString(2));
-  			account.setNumber(resultSet.getString(3));
-			System.out.println(String.format("ID: %s, Number: %s, Owner: %s", account.getId(), account.getOwner(), account.getNumber()));
-  			//Anschließend wird das erstellt Objekt der Accountliste hinzugefügt
-  			accountList.add(account);
-  		}
-  		//Connection, Statement, ResultSet schließen (evtl. Fehler noch abfangen, ggf. nicht schließen etc.)
-  		resultSet.close();
-  		statement.close();
-  		connection.close();
-  		return accountList;
-  	}
+ 
 
 }

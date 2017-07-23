@@ -1,7 +1,5 @@
 package de.fhdw.wipbank.server.main;
 
-import de.fhdw.wipbank.server.database.Database;
-import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.service.AccountService;
 
 public class Application {
@@ -13,10 +11,10 @@ public class Application {
         
         AccountService accountService = new AccountService();
         accountService.createTable();
-        Account account = new Account();
-        account.setOwner("Test");
-        account.setNumber("1001");
-        accountService.create(account);
-        Database.getAccounts();
+//        Account account = new Account();
+//        account.setOwner("Test");
+//        account.setNumber("1001");
+//        accountService.create(account);
+        accountService.getAll();
     }
 }
