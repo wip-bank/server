@@ -13,7 +13,7 @@ public class Transaction {
     private Account receiver;
     private BigDecimal amount;
     private String reference;
-    private Date transactionDate;
+    private Date transactionDate; // reverted
 
     @XmlTransient
     public int getId() {
