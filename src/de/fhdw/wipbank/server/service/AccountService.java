@@ -35,7 +35,7 @@ public class AccountService implements Service<Account> {
   		List<Account> accountList = new LinkedList<Account>();
   		while (resultSet.next()) {
   			//Für jeden Tabelleneintrag in der Datenbank, wird ein neues Account-Objekt erstellt
-  			//und mit den Daten aus dem Eintrag befüllt
+  			//und mit den Daten aus dem Eintrag befüllt.
   			Account account = new Account();
   			account.setId(resultSet.getInt(1));
   			account.setOwner(resultSet.getString(2));
