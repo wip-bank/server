@@ -1,47 +1,48 @@
 package de.fhdw.wipbank.server.service;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-import de.fhdw.wipbank.server.database.Database;
+import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
 
 public class AccountService implements Service<Account> {
 
+	private static final String TABLE_NAME = "accounts";
+	private static final String CREATE_TABLE = "create table accounts (id int not null primary key generated always as identity (start with 1, increment by 1), number varchar(4) not null unique, owner varchar(64))";
+    private static final String INSERT_ACCOUNT = "insert into accounts (owner, number) values (?, ?)";
+
 	@Override
     public void createTable() throws Exception {
-        if (!Database.tableExists("accounts")) {
-            Database.execute("create table accounts (id int not null primary key generated always as identity (start with 1, increment by 1), number varchar(4) not null unique, owner varchar(64))");
+        if (!Database.tableExists(TABLE_NAME)) {
+            Database.execute(CREATE_TABLE);
         }
     }
 
 	@Override
-	public void create(Account object) throws Exception {
-		if (Database.tableExists("accounts")) {
-			String insertStatement = String.format("insert into accounts (owner, number) values ('%s', '%s')", object.getOwner(), object.getNumber());
-			System.out.println(insertStatement);
-			Database.execute(insertStatement);
-        }
+	public void create(Account account) throws Exception {
+        PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_ACCOUNT);
+        insert.setString(1, account.getOwner());
+        insert.setString(2, account.getNumber());
+        insert.execute();
 	}
 
 	@Override
 	public List<Account> getAll() throws Exception {
 
-		ResultSet resultSet = Database.query("select * from accounts");
+		ResultSet results = Database.query("select * from accounts");
 
 		System.out.println("Table accounts:");
 
-  		List<Account> accountList = new LinkedList<Account>();
-  		while (resultSet.next()) {
-  			//Für jeden Tabelleneintrag in der Datenbank, wird ein neues Account-Objekt erstellt
-  			//und mit den Daten aus dem Eintrag befüllt.
-  			Account account = new Account();
-  			account.setId(resultSet.getInt(1));
-  			account.setNumber(resultSet.getString(2));
-  			account.setOwner(resultSet.getString(3));
+  		List<Account> accountList = new ArrayList<Account>();
+  		while (results.next()) {
+  			//Fï¿½r jeden Tabelleneintrag in der Datenbank, wird ein neues Account-Objekt erstellt
+  			//und mit den Daten aus dem Eintrag befï¿½llt.
+            Account account = convertToAccount(results);
   			System.out.println(String.format("ID: %s, Number: %s, Owner: %s", account.getId(), account.getNumber(), account.getOwner()));
-  			//Anschließend wird das erstellt Objekt der Accountliste hinzugefügt
+  			//Anschlieï¿½end wird das erstellt Objekt der Accountliste hinzugefï¿½gt
   			accountList.add(account);
   		}
   		return accountList;
@@ -68,6 +69,14 @@ public class AccountService implements Service<Account> {
 
 		return null;
 	}
+
+	private Account convertToAccount(ResultSet results) throws Exception {
+        Account account = new Account();
+        account.setId(results.getInt(1));
+        account.setNumber(results.getString(2));
+        account.setOwner(results.getString(3));
+        return account;
+    }
 }
 
 

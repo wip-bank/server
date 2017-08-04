@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.fhdw.wipbank.server.database.Database;
+import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.model.Transaction;
 

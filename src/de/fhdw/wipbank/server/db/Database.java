@@ -1,4 +1,4 @@
-package de.fhdw.wipbank.server.database;
+package de.fhdw.wipbank.server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
