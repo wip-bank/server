@@ -50,7 +50,6 @@ public class GeneralResource {
 
 	@POST
 	@Path("/transaction")
-	 @Consumes("application/x-www-form-urlencoded")
 	/**
 	 * https://stackoverflow.com/a/8194612
 	 * @param senderNumber
