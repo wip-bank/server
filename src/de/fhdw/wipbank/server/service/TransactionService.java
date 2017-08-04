@@ -29,20 +29,20 @@ public class TransactionService implements Service<Transaction>{
 
 	@Override
 	public List<Transaction> getAll() throws Exception {
-		ResultSet resultSet = Database.query("select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number ");
-		
+		ResultSet resultSet = Database.query("select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number order by transactionDate desc ");
+
 		System.out.println("Table transactions:");
-  		
+
   		List<Transaction> transactionList = new LinkedList<Transaction>();
   		while (resultSet.next()) {
   			Transaction transaction = new Transaction();
   			transaction.setId(resultSet.getInt(1));
 
-  			Account sender = new Account();	
+  			Account sender = new Account();
  			sender.setNumber(resultSet.getString(2));
  			sender.setOwner(resultSet.getString(7));
   			transaction.setSender(sender);
-  			
+
   			Account receiver = new Account();
  			receiver.setNumber(resultSet.getString(3));
  			receiver.setOwner(resultSet.getString(8));
@@ -58,26 +58,26 @@ public class TransactionService implements Service<Transaction>{
 	}
 
 	public List<Transaction> getTransactionsByAccount(String number) throws Exception {
-	
-		String selectStatement = String.format("select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number where senderNumber = '%s' or receiverNumber = '%s'", number, number);
+
+		String selectStatement = String.format("select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number where senderNumber = '%s' or receiverNumber = '%s' order by transactionDate desc", number, number);
 		System.out.println(selectStatement);
 		ResultSet resultSet = Database.query(selectStatement);
-		
+
 		List<Transaction> transactionList = new LinkedList<Transaction>();
   		while (resultSet.next()) {
   			Transaction transaction = new Transaction();
   			transaction.setId(resultSet.getInt(1));
-  			
- 			Account sender = new Account();	
+
+ 			Account sender = new Account();
  			sender.setNumber(resultSet.getString(2));
  			sender.setOwner(resultSet.getString(7));
   			transaction.setSender(sender);
-  			
+
   			Account receiver = new Account();
  			receiver.setNumber(resultSet.getString(3));
  			receiver.setOwner(resultSet.getString(8));
   			transaction.setReceiver(receiver);
-  			
+
   			transaction.setAmount(resultSet.getBigDecimal(4));
   			transaction.setReference(resultSet.getString(5));
   			transaction.setTransactionDate(new Date(resultSet.getTimestamp(6).getTime()));
@@ -86,5 +86,5 @@ public class TransactionService implements Service<Transaction>{
   		}
   		return transactionList;
 	}
-	
+
 }

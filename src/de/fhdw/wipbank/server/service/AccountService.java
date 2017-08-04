@@ -27,11 +27,11 @@ public class AccountService implements Service<Account> {
 
 	@Override
 	public List<Account> getAll() throws Exception {
-		
+
 		ResultSet resultSet = Database.query("select * from accounts");
-		
+
 		System.out.println("Table accounts:");
-  		
+
   		List<Account> accountList = new LinkedList<Account>();
   		while (resultSet.next()) {
   			//Für jeden Tabelleneintrag in der Datenbank, wird ein neues Account-Objekt erstellt
@@ -48,22 +48,24 @@ public class AccountService implements Service<Account> {
 	}
 
 	public Account getAccount(String number) throws Exception {
+
 		String selectStatement = String.format("select * from accounts where number = '%s'", number);
+		System.out.println(selectStatement);
 		ResultSet resultSet = Database.query(selectStatement);
-		
+
 	    if (resultSet.next()){
 	    	Account account = new Account();
 	    	account.setId(resultSet.getInt(1));
 	    	account.setNumber(resultSet.getString(2));
 	    	account.setOwner(resultSet.getString(3));
-	    	
+
 	    	// Alle Transaktionen des Accounts finden
 	    	TransactionService transactionService = new TransactionService();
 	    	account.setTransactions(transactionService.getTransactionsByAccount(number));
-	    	
+
 	    	return account;
 	    }
-		
+
 		return null;
 	}
 }

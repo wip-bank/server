@@ -1,11 +1,11 @@
 package de.fhdw.wipbank.server.main;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
-import de.fhdw.wipbank.server.database.Database;
 import de.fhdw.wipbank.server.model.Account;
+import de.fhdw.wipbank.server.model.Transaction;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
 
@@ -17,20 +17,20 @@ public class Application {
         //Database.execute("drop table account");
 
         AccountService accountService = new AccountService();
-        accountService.createTable();
-        Account account = new Account();
-        account.setOwner("Jannis");
-        account.setNumber("1002");
-        accountService.create(account);
+//        accountService.createTable();
+//        Account account = new Account();
+//        account.setOwner("Alex");
+//        account.setNumber("1003");
+//        accountService.create(account);
         List<Account> accounts = accountService.getAll();
 
         TransactionService transactionService = new TransactionService();
-        transactionService.createTable();
+//        transactionService.createTable();
 //        Transaction transaction = new Transaction();
-//        transaction.setSender(accounts.get(2));
-//        transaction.setReceiver(accounts.get(1));
-//        transaction.setAmount(BigDecimal.valueOf(1234.56));
-//        transaction.setReference("Test-Transaktion");
+//        transaction.setSender(accounts.get(1));
+//        transaction.setReceiver(accounts.get(3));
+//        transaction.setAmount(BigDecimal.valueOf(30000000.00));
+//        transaction.setReference("Rücküberweisung");
 //        transaction.setTransactionDate(new Date(System.currentTimeMillis()));
 //        transactionService.create(transaction);
         transactionService.getAll();
