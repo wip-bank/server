@@ -26,7 +26,7 @@ public class AccountResource {
     	// Fehlerprüfungen
     	
     	// 1. -> Format number: Die Kontonummer ist stets 4-stellig und beginnt mit einer 1 (z.B. 1005, Ausnahme: Konto der Bank: 0000)
-    	if(!Validation.isAccountNumberValid(number))
+    	if(!Validation.isAccountNumberValid(number) && !number.equals("0000"))
     		return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Account ungültig").build();
     	
