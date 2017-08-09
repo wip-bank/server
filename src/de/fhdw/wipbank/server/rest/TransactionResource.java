@@ -1,25 +1,22 @@
 package de.fhdw.wipbank.server.rest;
 
-import com.sun.jersey.spi.resource.Singleton;
-import de.fhdw.wipbank.server.model.Account;
-import de.fhdw.wipbank.server.model.Transaction;
-import de.fhdw.wipbank.server.service.TransactionService;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
-import java.math.BigDecimal;
-import java.util.Date;
+
+import com.sun.jersey.spi.resource.Singleton;
+
+import de.fhdw.wipbank.server.model.Account;
+import de.fhdw.wipbank.server.model.Transaction;
+import de.fhdw.wipbank.server.service.TransactionService;
 
 @Path("/transaction")
 @Singleton
 public class TransactionResource {
-
-	private static final int CODE_BAD_REQUEST = 400;
-	private static final int CODE_NOT_FOUND = 404;
-	private static final int CODE_PRECONDITION_FAILED = 412;
-	private static final int CODE_INTERNAL_SERVER_ERROR = 500;
 
 	@POST
 	@Path("/")

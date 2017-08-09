@@ -1,9 +1,5 @@
 package de.fhdw.wipbank.server.rest;
 
-import com.sun.jersey.spi.resource.Singleton;
-import de.fhdw.wipbank.server.model.Account;
-import de.fhdw.wipbank.server.service.AccountService;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,14 +7,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.spi.resource.Singleton;
+
+import de.fhdw.wipbank.server.model.Account;
+import de.fhdw.wipbank.server.service.AccountService;
+
 @Path("/account")
 @Singleton
 public class AccountResource {
 
-	private static final int CODE_BAD_REQUEST = 400;
-	private static final int CODE_NOT_FOUND = 404;
-	private static final int CODE_INTERNAL_SERVER_ERROR = 500;
-	
     @GET
     @Path("/{number}")
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
