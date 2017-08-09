@@ -1,11 +1,8 @@
 package de.fhdw.wipbank.server.main;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import de.fhdw.wipbank.server.model.Account;
-import de.fhdw.wipbank.server.model.Transaction;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
 
@@ -17,11 +14,11 @@ public class Application {
         //Database.execute("drop table account");
 
         AccountService accountService = new AccountService();
-        accountService.createTable();
-        Account account = new Account();
-        account.setOwner("Alex");
-        account.setNumber("1003");
-        accountService.create(account);
+//        accountService.createTable();
+//        Account account = new Account();
+//        account.setOwner("Alex");
+//        account.setNumber("1003");
+//        accountService.create(account);
         List<Account> accounts = accountService.getAll();
 
         TransactionService transactionService = new TransactionService();
@@ -35,6 +32,9 @@ public class Application {
 //        transactionService.create(transaction);
         transactionService.getAll();
 
-
     }
+    
+    
+ 
+   
 }

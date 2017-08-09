@@ -1,14 +1,13 @@
 package de.fhdw.wipbank.server.model;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import de.fhdw.wipbank.server.rest.DateTimeAdapter;
 
 @XmlRootElement
 public class Transaction {
@@ -70,23 +69,6 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
     
-    /**
-     * http://javarevisited.blogspot.de/2017/04/jaxb-date-format-example-using-annotation-XMLAdapter.html
-     *
-     */
-    class DateTimeAdapter extends XmlAdapter<String, Date>{
-        private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-
-        @Override
-        public Date unmarshal(String xml) throws Exception {
-            return dateFormat.parse(xml);
-        }
-
-        @Override
-        public String marshal(Date object) throws Exception {
-            return dateFormat.format(object);
-        }
-
-    }
+    
 
 }
