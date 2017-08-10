@@ -3,7 +3,6 @@ package de.fhdw.wipbank.server.rest;
 import java.math.BigDecimal;
 
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import javax.ws.rs.FormParam;
@@ -19,6 +18,7 @@ import de.fhdw.wipbank.server.model.Transaction;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
 
+import de.fhdw.wipbank.server.util.Validation;
 import org.apache.log4j.Logger;
 
 
@@ -58,31 +58,31 @@ public class TransactionResource {
 					 " amount: " + amount + 
 					 " reference: " + reference); 
 
-		// Fehlerprüfungen
+		// Fehlerprï¿½fungen
 
 		// 1. -> Erlaubte Zeichen bei reference: A-Z, a-z, 0-9, Leerzeichen
 		// (Pflichtfeld)
 		if (!Validation.isReferenceValid(reference))
-			return getResponse(Response.Status.BAD_REQUEST, "Referenz ungültig");
+			return getResponse(Response.Status.BAD_REQUEST, "Referenz ungï¿½ltig");
 
 		// 2. -> Format amount: 2 Nachkommastellen durch "." getrennt (z.B. 1234.99) -
 		// Angaben wie 1234 statt 1234.00 sind ebenfalls erlaubt (Pflichtfeld)
 		if (!Validation.isAmountValid(amount))
-			return getResponse(Response.Status.BAD_REQUEST, "Betrag ungültig");
+			return getResponse(Response.Status.BAD_REQUEST, "Betrag ungï¿½ltig");
 
 		// 3. -> Format receiverNumber: Die Kontonummer ist stets 4-stellig und beginnt
 		// mit einer 1 (z.B. 1005) (Pflichtfeld)
 		if (!Validation.isAccountNumberValid(receiverNumber))
-			return getResponse(Response.Status.BAD_REQUEST, "Empfänger ungültig");
+			return getResponse(Response.Status.BAD_REQUEST, "Empfï¿½nger ungï¿½ltig");
 
 		// 4. -> Format senderNumber: Die Kontonummer ist stets 4-stellig und beginnt
 		// mit einer 1 (z.B. 1005) (Pflichtfeld)
 		if (!Validation.isAccountNumberValid(senderNumber))
-			return getResponse(Response.Status.BAD_REQUEST, "Sender ungültig");
+			return getResponse(Response.Status.BAD_REQUEST, "Sender ungï¿½ltig");
 
 		// 5. Falls receiverNumber = senderNumber, dann gib einen Fehler aus
 		if (receiverNumber.equals(senderNumber))
-			return getResponse(Response.Status.BAD_REQUEST, "Empfänger gleich Sender");
+			return getResponse(Response.Status.BAD_REQUEST, "Empfï¿½nger gleich Sender");
 
 		AccountService accountService = new AccountService();
 		Account sender;
@@ -95,18 +95,18 @@ public class TransactionResource {
 			if (sender == null)
 				return getResponse(Response.Status.NOT_FOUND, "Sender nicht vorhanden");
 
-			// 7. Falls Empfänger nicht vorhanden, dann gib einen Fehler aus
+			// 7. Falls Empfï¿½nger nicht vorhanden, dann gib einen Fehler aus
 			receiver = accountService.getAccount(receiverNumber);
 			if (receiver == null)
-				return getResponse(Response.Status.NOT_FOUND, "Empfänger nicht vorhanden");
+				return getResponse(Response.Status.NOT_FOUND, "Empfï¿½nger nicht vorhanden");
 
-			// 8. Falls nicht genug Geld für Überweisung, dann gib einen Fehler aus
+			// 8. Falls nicht genug Geld fï¿½r ï¿½berweisung, dann gib einen Fehler aus
 			// List<Transaction> transactions = sender.getTransactions();
 			//
 			// BigDecimal balance = new BigDecimal(0);
 			// for (Transaction transaction : transactions) {
 			// if (transaction.getSender().getNumber().equals(sender.getNumber()))
-			// // Benutzer überweist Geld an wen anders
+			// // Benutzer ï¿½berweist Geld an wen anders
 			// balance = balance.subtract(transaction.getAmount());
 			// else
 			// // Benutzer bekommt Geld

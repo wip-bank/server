@@ -44,4 +44,8 @@ public class Account {
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+    public String toString() {
+        return "Account[owner: " + owner + "; number: " + number + "]";
+    }
 }

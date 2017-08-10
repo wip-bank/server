@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import de.fhdw.wipbank.server.rest.DateTimeAdapter;
+import de.fhdw.wipbank.server.util.DateTimeAdapter;
 
 @XmlRootElement
 public class Transaction {
@@ -68,7 +68,9 @@ public class Transaction {
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
-    
-    
+
+    public String toString() {
+        return "Transaction[sender: " + sender.getNumber() + "; receiver: " + receiver.getNumber() + "; amount: " + amount + "]";
+    }
 
 }

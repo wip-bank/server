@@ -1,4 +1,4 @@
-package de.fhdw.wipbank.server.rest;
+package de.fhdw.wipbank.server.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -11,6 +11,7 @@ import com.sun.jersey.spi.resource.Singleton;
 
 import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.service.AccountService;
+import de.fhdw.wipbank.server.util.Validation;
 
 @Path("/account")
 @Singleton
@@ -20,12 +21,12 @@ public class AccountResource {
     @Path("/{number}")
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
     public Response getAccount(@PathParam("number") String number) {
-    	// Fehlerprüfungen
+    	// Fehlerprï¿½fungen
     	
     	// 1. -> Format number: Die Kontonummer ist stets 4-stellig und beginnt mit einer 1 (z.B. 1005, Ausnahme: Konto der Bank: 0000)
     	if(!Validation.isAccountNumberValid(number) && !number.equals("0000"))
     		return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Account ungültig").build();
+                    .entity("Account ungï¿½ltig").build();
     	
     	
         Account account = new Account();

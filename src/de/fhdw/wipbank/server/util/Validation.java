@@ -1,4 +1,4 @@
-package de.fhdw.wipbank.server.rest;
+package de.fhdw.wipbank.server.util;
 
 public class Validation {
 	public static boolean isReferenceValid(String reference) {
