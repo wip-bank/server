@@ -9,6 +9,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.sun.jersey.spi.resource.Singleton;
 
@@ -51,26 +52,26 @@ public class TransactionResource {
 		// 1. -> Erlaubte Zeichen bei reference: A-Z, a-z, 0-9, Leerzeichen
 		// (Pflichtfeld)
 		if (!Validation.isReferenceValid(reference))
-			return Response.status(Response.Status.BAD_REQUEST).entity("Referenz ungültig").build();
+			return getResponse(Response.Status.BAD_REQUEST, "Referenz ungültig");
 
 		// 2. -> Format amount: 2 Nachkommastellen durch "." getrennt (z.B. 1234.99) -
 		// Angaben wie 1234 statt 1234.00 sind ebenfalls erlaubt (Pflichtfeld)
 		if (!Validation.isAmountValid(amount))
-			return Response.status(Response.Status.BAD_REQUEST).entity("Betrag ungültig").build();
+			return getResponse(Response.Status.BAD_REQUEST, "Betrag ungültig");
 
 		// 3. -> Format receiverNumber: Die Kontonummer ist stets 4-stellig und beginnt
 		// mit einer 1 (z.B. 1005) (Pflichtfeld)
 		if (!Validation.isAccountNumberValid(receiverNumber))
-			return Response.status(Response.Status.BAD_REQUEST).entity("Empfänger ungültig").build();
+			return getResponse(Response.Status.BAD_REQUEST, "Empfänger ungültig");
 
 		// 4. -> Format senderNumber: Die Kontonummer ist stets 4-stellig und beginnt
 		// mit einer 1 (z.B. 1005) (Pflichtfeld)
 		if (!Validation.isAccountNumberValid(senderNumber))
-			return Response.status(Response.Status.BAD_REQUEST).entity("Sender ungültig").build();
+			return getResponse(Response.Status.BAD_REQUEST, "Sender ungültig");
 
 		// 5. Falls receiverNumber = senderNumber, dann gib einen Fehler aus
 		if (receiverNumber.equals(senderNumber))
-			return Response.status(Response.Status.BAD_REQUEST).entity("Empfänger gleich Sender").build();
+			return getResponse(Response.Status.BAD_REQUEST, "Empfänger gleich Sender");
 
 		AccountService accountService = new AccountService();
 		Account sender;
@@ -81,12 +82,12 @@ public class TransactionResource {
 			// 6. Falls Sender nicht vorhanden, dann gib einen Fehler aus
 			sender = accountService.getAccount(senderNumber);
 			if (sender == null)
-				return Response.status(Response.Status.NOT_FOUND).entity("Sender nicht vorhanden").build();
+				return getResponse(Response.Status.NOT_FOUND, "Sender nicht vorhanden");
 
 			// 7. Falls Empfänger nicht vorhanden, dann gib einen Fehler aus
 			receiver = accountService.getAccount(receiverNumber);
 			if (receiver == null)
-				return Response.status(Response.Status.NOT_FOUND).entity("Empfänger nicht vorhanden").build();
+				return getResponse(Response.Status.NOT_FOUND, "Empfänger nicht vorhanden");
 
 			// 8. Falls nicht genug Geld für Überweisung, dann gib einen Fehler aus
 			// List<Transaction> transactions = sender.getTransactions();
@@ -121,7 +122,7 @@ public class TransactionResource {
 		TransactionService transactionService = new TransactionService();
 		try {
 			if (!transactionService.create(transaction))
-				return Response.status(Response.Status.PRECONDITION_FAILED).entity("Kontostand zu gering").build();
+				return getResponse(Response.Status.PRECONDITION_FAILED, "Kontostand zu gering");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,6 +136,15 @@ public class TransactionResource {
 		return Response.ok().build();
 	}
 
-	
+	private Response getResponse(Status status, String msg) {
+		Logger logger = Logger.getLogger(getClass());
+		
+		logger.error( "REST: executeTransaction" + 
+					 " Status: " + status.getStatusCode() + 
+					 " (" + status.getReasonPhrase() + ")" +
+					 " Msg: " + msg); 
+		return Response.status(status).entity(msg).build();
+ 			
+	}
 
 }
