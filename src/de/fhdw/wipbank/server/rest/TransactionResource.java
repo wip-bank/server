@@ -25,7 +25,8 @@ import org.apache.log4j.Logger;
 @Path("/transaction")
 @Singleton
 public class TransactionResource {
-	
+
+	private static Logger logger = Logger.getLogger(TransactionResource.class);
 	private static Semaphore executeTransactionSemaphore = new Semaphore(1);
 
 	@POST
@@ -39,8 +40,10 @@ public class TransactionResource {
 	 * @param reference
 	 * @return
 	 */
-	public Response executeTransaction(@FormParam("senderNumber") String senderNumber,
-			@FormParam("receiverNumber") String receiverNumber, @FormParam("amount") String amount,
+	public Response executeTransaction(
+	        @FormParam("senderNumber") String senderNumber,
+			@FormParam("receiverNumber") String receiverNumber,
+            @FormParam("amount") String amount,
 			@FormParam("reference") String reference) {
 		
 		try {
@@ -50,9 +53,7 @@ public class TransactionResource {
 			return Response.serverError().build(); 
 		}
 		
-		Logger logger = Logger.getLogger(getClass());
-		
-		logger.info( "REST: executeTransaction" + 
+		logger.info( "REST: executeTransaction" +
 					 " senderNumber: " + senderNumber + 
 					 " receiverNumber: " + receiverNumber + 
 					 " amount: " + amount + 
@@ -148,9 +149,7 @@ public class TransactionResource {
 	}
 
 	private Response getResponse(Status status, String msg) {
-		Logger logger = Logger.getLogger(getClass());
-		
-		logger.error( "REST: executeTransaction" + 
+		logger.error( "REST: executeTransaction" +
 					 " Status: " + status.getStatusCode() + 
 					 " (" + status.getReasonPhrase() + ")" +
 					 " Msg: " + msg); 

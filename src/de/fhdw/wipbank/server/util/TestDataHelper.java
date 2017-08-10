@@ -5,11 +5,14 @@ import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.model.Transaction;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class TestDataHelper {
+
+    private static Logger logger = Logger.getLogger(TestDataHelper.class);
 
     private AccountService accountService;
     private TransactionService transactionService;
@@ -22,17 +25,17 @@ public class TestDataHelper {
     public void wipeDatabase() {
         try {
             if (Database.tableExists("accounts")) {
-                System.out.println("Tabelle 'accounts' wird bereinigt...");
+                logger.info("Tabelle 'accounts' wird bereinigt...");
                 Database.execute("drop table accounts");
             }
             if (Database.tableExists("transactions")) {
-                System.out.println("Tabelle 'transactions' wird bereinigt...");
+                logger.info("Tabelle 'transactions' wird bereinigt...");
                 Database.execute("drop table transactions");
             }
             accountService.createTable();
             transactionService.createTable();
         } catch (Exception e) {
-            System.out.println("Konnte Tabellen nicht löschen");
+            logger.error("Konnte Tabellen nicht löschen");
         }
     }
 
@@ -42,10 +45,10 @@ public class TestDataHelper {
             account.setOwner(owner);
             account.setNumber(number);
             accountService.create(account);
-            System.out.println(account);
+            logger.info("TestData: " + account);
             return account;
         } catch (Exception e) {
-            System.out.println("Konnte folgenden Account nicht erstellen: " + owner);
+            logger.error("Konnte folgenden Account nicht erstellen: " + owner);
             return null;
         }
     }
@@ -59,10 +62,10 @@ public class TestDataHelper {
             transaction.setReference("Testtransaktion");
             transaction.setTransactionDate(new Date(System.currentTimeMillis()));
             transactionService.create(transaction);
-            System.out.println(transaction);
+            logger.info("TestData: " + transaction);
             return transaction;
         } catch (Exception e) {
-            System.out.println("Konnte folgende Transaktion nicht durchführen: " + amount);
+            logger.error("Konnte folgende Transaktion nicht durchführen: " + amount);
             return null;
         }
     }
