@@ -4,6 +4,9 @@ public class Validation {
 	public static boolean isReferenceValid(String reference) {
 		if (reference == null)
 			return false;
+	
+		if (reference.equals(""))
+			return false;
 
 		char[] chars = reference.toCharArray();
 
@@ -17,9 +20,11 @@ public class Validation {
 	}
 
 	public static boolean isAmountValid(String amount) {
+		if (amount == null)
+			return false;
+		if (amount.equals(""))
+			return false;
 		try {
-			if (amount == null)
-				return false;
 			if (Double.valueOf(amount) <= 0)
 				return false;
 			return amount.matches("^\\d+(\\.\\d{1,2})?$");
@@ -30,6 +35,8 @@ public class Validation {
 
 	public static boolean isAccountNumberValid(String accountNumber) {
 		if (accountNumber == null)
+			return false;
+		if (accountNumber.equals(""))
 			return false;
 		return accountNumber.matches("^[1]+\\d{3}$");
 	}

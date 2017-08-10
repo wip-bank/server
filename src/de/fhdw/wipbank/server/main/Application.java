@@ -21,8 +21,8 @@ public class Application {
         AccountService accountService = new AccountService();
 //        accountService.createTable();
 //        Account account = new Account();
-//        account.setOwner("Alex");
-//        account.setNumber("1003");
+//        account.setOwner("Philipp");
+//        account.setNumber("1001");
 //        accountService.create(account);
         List<Account> accounts = accountService.getAll();
 
@@ -50,6 +50,14 @@ public class Application {
         transaction.setReceiver(accounts.get(3));
         transaction.setAmount(BigDecimal.valueOf(100000.00));
         transaction.setReference("Testtransaktion3");
+        transaction.setTransactionDate(new Date(System.currentTimeMillis()));
+        transactionService.create(transaction);
+        
+        transaction = new Transaction();
+        transaction.setSender(accounts.get(0));
+        transaction.setReceiver(accounts.get(4));
+        transaction.setAmount(BigDecimal.valueOf(100000.00));
+        transaction.setReference("Testtransaktion1");
         transaction.setTransactionDate(new Date(System.currentTimeMillis()));
         transactionService.create(transaction);
 //        

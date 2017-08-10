@@ -43,7 +43,7 @@ public class TransactionService implements Service<Transaction> {
 						// Benutzer bekommt Geld
 						balance = balance.add(transaction.getAmount());
 				}
-				System.out.println("Old balance: " + balance);
+				//System.out.println("Old balance: " + balance);
 				if (object.getAmount().compareTo(balance) == 1) {
 					semaphore.release();
 					return false;

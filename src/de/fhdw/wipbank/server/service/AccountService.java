@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
@@ -23,10 +24,14 @@ public class AccountService implements Service<Account> {
 
 	@Override
 	public boolean create(Account account) throws Exception {
+		Semaphore semaphore = Database.getExecuteSemaphor();
+		semaphore.acquire();
         PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_ACCOUNT);
         insert.setString(1, account.getOwner());
         insert.setString(2, account.getNumber());
-        return insert.execute();
+        boolean success = insert.execute();
+        semaphore.release();
+        return success;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -24,6 +25,8 @@ import org.apache.log4j.Logger;
 @Path("/transaction")
 @Singleton
 public class TransactionResource {
+	
+	private static Semaphore executeTransactionSemaphore = new Semaphore(1);
 
 	@POST
 	@Path("/")
@@ -39,6 +42,14 @@ public class TransactionResource {
 	public Response executeTransaction(@FormParam("senderNumber") String senderNumber,
 			@FormParam("receiverNumber") String receiverNumber, @FormParam("amount") String amount,
 			@FormParam("reference") String reference) {
+		
+		try {
+			executeTransactionSemaphore.acquire();
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+			return Response.serverError().build(); 
+		}
+		
 		Logger logger = Logger.getLogger(getClass());
 		
 		logger.info( "REST: executeTransaction" + 
@@ -132,7 +143,7 @@ public class TransactionResource {
 			// und mit responsecode zur�ckgeben
 			// (Siehe Schnittstelle)
 		}
-
+		executeTransactionSemaphore.release();
 		return Response.ok().build();
 	}
 
@@ -143,6 +154,8 @@ public class TransactionResource {
 					 " Status: " + status.getStatusCode() + 
 					 " (" + status.getReasonPhrase() + ")" +
 					 " Msg: " + msg); 
+		
+		executeTransactionSemaphore.release();
 		return Response.status(status).entity(msg).build();
  			
 	}
