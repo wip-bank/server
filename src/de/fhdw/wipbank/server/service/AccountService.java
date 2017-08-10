@@ -22,11 +22,11 @@ public class AccountService implements Service<Account> {
     }
 
 	@Override
-	public void create(Account account) throws Exception {
+	public boolean create(Account account) throws Exception {
         PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_ACCOUNT);
         insert.setString(1, account.getOwner());
         insert.setString(2, account.getNumber());
-        insert.execute();
+        return insert.execute();
 	}
 
 	@Override
@@ -34,14 +34,14 @@ public class AccountService implements Service<Account> {
 
 		ResultSet results = Database.query("select * from accounts");
 
-		System.out.println("Table accounts:");
+//		System.out.println("Table accounts:");
 
   		List<Account> accountList = new ArrayList<Account>();
   		while (results.next()) {
   			//F�r jeden Tabelleneintrag in der Datenbank, wird ein neues Account-Objekt erstellt
   			//und mit den Daten aus dem Eintrag bef�llt.
             Account account = convertToAccount(results);
-  			System.out.println(String.format("ID: %s, Number: %s, Owner: %s", account.getId(), account.getNumber(), account.getOwner()));
+//  			System.out.println(String.format("ID: %s, Number: %s, Owner: %s", account.getId(), account.getNumber(), account.getOwner()));
   			//Anschlie�end wird das erstellt Objekt der Accountliste hinzugef�gt
   			accountList.add(account);
   		}
@@ -51,7 +51,7 @@ public class AccountService implements Service<Account> {
 	public Account getAccount(String number) throws Exception {
 
 		String selectStatement = String.format("select * from accounts where number = '%s'", number);
-		System.out.println(selectStatement);
+//		System.out.println(selectStatement);
 		ResultSet resultSet = Database.query(selectStatement);
 
 	    if (resultSet.next()){

@@ -10,6 +10,12 @@ import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+
 public class JettyServer {
 
 	public static void run() throws Exception {
@@ -25,5 +31,16 @@ public class JettyServer {
 		server.setHandler(handlers);
 
 		server.start();
+		
+		
+		//Konfiguration des Loggers
+		Logger logger = Logger.getRootLogger();
+		//SimpleLayout layout = new SimpleLayout();
+		PatternLayout layout = new PatternLayout( "%d{ISO8601} %-5p [%t] %c: %m%n" );
+		ConsoleAppender appender = new ConsoleAppender(layout);
+		logger.addAppender(appender);
+		logger.setLevel(Level.ALL);
+		FileAppender fileAppender = new FileAppender( layout, "logs/MeineLogDatei.log", false );
+	    logger.addAppender( fileAppender );
 	}
 }

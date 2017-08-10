@@ -17,11 +17,15 @@ public class Validation {
 	}
 
 	public static boolean isAmountValid(String amount) {
-		if (amount == null)
+		try {
+			if (amount == null)
+				return false;
+			if (Double.valueOf(amount) <= 0)
+				return false;
+			return amount.matches("^\\d+(\\.\\d{1,2})?$");
+		} catch (NumberFormatException e) {
 			return false;
-		if (Double.valueOf(amount) <= 0)
-			return false;
-		return amount.matches("^\\d+(\\.\\d{1,2})?$");
+		}
 	}
 
 	public static boolean isAccountNumberValid(String accountNumber) {

@@ -6,10 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.concurrent.Semaphore;
 
 public class Database {
+	
+	private static Semaphore executeSemaphor = new Semaphore(1);
 
-    public static ResultSet query(String sql) throws SQLException {
+    public static Semaphore getExecuteSemaphor() {
+		return executeSemaphor;
+	}
+
+	public static ResultSet query(String sql) throws SQLException {
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
         ResultSet result = statement.executeQuery(sql);
@@ -21,10 +28,11 @@ public class Database {
     public static boolean execute(String sql) throws SQLException {
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
-        boolean result = statement.execute(sql);
+        int rowsAffected = statement.executeUpdate(sql);
         statement.close();
+        
         connection.close();
-        return result;
+        return rowsAffected > 0;
     }
 
     public static boolean tableExists(String table) {

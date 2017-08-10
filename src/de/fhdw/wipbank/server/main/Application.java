@@ -1,8 +1,13 @@
 package de.fhdw.wipbank.server.main;
 
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Date;
 import java.util.List;
 
+import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
+import de.fhdw.wipbank.server.model.Transaction;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
 
@@ -11,7 +16,7 @@ public class Application {
         JettyServer.run();
 
         // Hier ist ein Block Testcode :) Testcommit
-        //Database.execute("drop table account");
+        Database.execute("drop table transactions");
 
         AccountService accountService = new AccountService();
 //        accountService.createTable();
@@ -23,15 +28,34 @@ public class Application {
 
         TransactionService transactionService = new TransactionService();
         transactionService.createTable();
-//        Transaction transaction = new Transaction();
-//        transaction.setSender(accounts.get(1));
-//        transaction.setReceiver(accounts.get(3));
-//        transaction.setAmount(BigDecimal.valueOf(30000000.00));
-//        transaction.setReference("R�ck�berweisung");
-//        transaction.setTransactionDate(new Date(System.currentTimeMillis()));
-//        transactionService.create(transaction);
+        
+        Transaction transaction = new Transaction();
+        transaction.setSender(accounts.get(0));
+        transaction.setReceiver(accounts.get(1));
+        transaction.setAmount(BigDecimal.valueOf(100000.00));
+        transaction.setReference("Testtransaktion1");
+        transaction.setTransactionDate(new Date(System.currentTimeMillis()));
+        transactionService.create(transaction);
+        
+        transaction = new Transaction();
+        transaction.setSender(accounts.get(0));
+        transaction.setReceiver(accounts.get(2));
+        transaction.setAmount(BigDecimal.valueOf(100000.00));
+        transaction.setReference("Testtransaktion2");
+        transaction.setTransactionDate(new Date(System.currentTimeMillis()));
+        transactionService.create(transaction);
+        
+        transaction = new Transaction();
+        transaction.setSender(accounts.get(0));
+        transaction.setReceiver(accounts.get(3));
+        transaction.setAmount(BigDecimal.valueOf(100000.00));
+        transaction.setReference("Testtransaktion3");
+        transaction.setTransactionDate(new Date(System.currentTimeMillis()));
+        transactionService.create(transaction);
+//        
         transactionService.getAll();
-
+        
+        
     }
     
     

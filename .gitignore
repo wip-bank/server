@@ -28,3 +28,4 @@ bin/
 # Derby
 database/
 
+/logs/

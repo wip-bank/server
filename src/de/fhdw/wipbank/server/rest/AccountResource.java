@@ -32,9 +32,13 @@ public class AccountResource {
         AccountService accountService = new AccountService();
         try {
             account = accountService.getAccount(number);
+            if (account == null)
+            	return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Account nicht vorhanden").build();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return Response.serverError().build();
         }
         return Response.ok(account).build();
     }
