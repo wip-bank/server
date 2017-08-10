@@ -28,7 +28,7 @@ public class TransactionService implements Service<Transaction> {
 		semaphore.acquire();
 		if (Database.tableExists("transactions")) {
 
-			// Falls nicht genug Geld für Überweisung, dann verlasse die Methode
+			// Falls nicht genug Geld fï¿½r ï¿½berweisung, dann verlasse die Methode
 			// (Ausnahme: Bank "0000")
 			if (!object.getSender().getNumber().equals("0000")) {
 				List<Transaction> transactions = new AccountService().getAccount(object.getSender().getNumber())
@@ -37,7 +37,7 @@ public class TransactionService implements Service<Transaction> {
 				BigDecimal balance = new BigDecimal(0);
 				for (Transaction transaction : transactions) {
 					if (transaction.getSender().getNumber().equals(object.getSender().getNumber()))
-						// Benutzer überweist Geld an wen anders
+						// Benutzer ï¿½berweist Geld an wen anders
 						balance = balance.subtract(transaction.getAmount());
 					else
 						// Benutzer bekommt Geld
@@ -54,7 +54,6 @@ public class TransactionService implements Service<Transaction> {
 					"insert into transactions (senderNumber, receiverNumber, amount, reference, transactionDate) values ('%s', '%s', %s, '%s', '%s')",
 					object.getSender().getNumber(), object.getReceiver().getNumber(), object.getAmount(),
 					object.getReference(), new java.sql.Timestamp(object.getTransactionDate().getTime()));
-			System.out.println(insertStatement);
 
 			success = Database.execute(insertStatement);
 
