@@ -2,6 +2,7 @@ package de.fhdw.wipbank.server.service;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +15,7 @@ import de.fhdw.wipbank.server.model.Transaction;
 public class TransactionService implements Service<Transaction> {
 
 	@Override
-	public void createTable() throws Exception {
+	public void createTable() throws SQLException {
 		if (!Database.tableExists("transactions")) {
 			Database.execute(
 					"create table transactions (id int not null primary key generated always as identity (start with 1, increment by 1), senderNumber varchar(4) not null, receiverNumber varchar(4) not null, amount decimal(15, 2), reference varchar(64), transactionDate timestamp )");
@@ -22,10 +23,8 @@ public class TransactionService implements Service<Transaction> {
 	}
 
 	@Override
-	public boolean create(Transaction object) throws Exception {
+	public boolean create(Transaction object) throws SQLException {
 		boolean success = false;
-		Semaphore semaphore = Database.getExecuteSemaphor();
-		semaphore.acquire();
 		if (Database.tableExists("transactions")) {
 
 			// Falls nicht genug Geld f�r �berweisung, dann verlasse die Methode
@@ -45,7 +44,6 @@ public class TransactionService implements Service<Transaction> {
 				}
 				//System.out.println("Old balance: " + balance);
 				if (object.getAmount().compareTo(balance) == 1) {
-					semaphore.release();
 					return false;
 				}
 
@@ -58,12 +56,11 @@ public class TransactionService implements Service<Transaction> {
 			success = Database.execute(insertStatement);
 
 		}
-		semaphore.release();
 		return success;
 	}
 
 	@Override
-	public List<Transaction> getAll() throws Exception {
+	public List<Transaction> getAll() throws SQLException {
 		ResultSet resultSet = Database.query(
 				"select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number order by transactionDate desc ");
 
@@ -97,7 +94,7 @@ public class TransactionService implements Service<Transaction> {
 		return transactionList;
 	}
 
-	public List<Transaction> getTransactionsByAccount(String number) throws Exception {
+	public List<Transaction> getTransactionsByAccount(String number) throws SQLException {
 
 		String selectStatement = String.format(
 				"select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number where senderNumber = '%s' or receiverNumber = '%s' order by transactionDate desc",

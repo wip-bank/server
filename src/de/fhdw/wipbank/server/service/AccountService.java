@@ -2,9 +2,9 @@ package de.fhdw.wipbank.server.service;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
@@ -16,26 +16,23 @@ public class AccountService implements Service<Account> {
     private static final String INSERT_ACCOUNT = "insert into accounts (owner, number) values (?, ?)";
 
 	@Override
-    public void createTable() throws Exception {
+    public void createTable() throws SQLException {
         if (!Database.tableExists(TABLE_NAME)) {
             Database.execute(CREATE_TABLE);
         }
     }
 
 	@Override
-	public boolean create(Account account) throws Exception {
-		Semaphore semaphore = Database.getExecuteSemaphor();
-		semaphore.acquire();
+	public boolean create(Account account) throws SQLException {
         PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_ACCOUNT);
         insert.setString(1, account.getOwner());
         insert.setString(2, account.getNumber());
-        boolean success = insert.execute();
-        semaphore.release();
-        return success;
+        insert.execute();
+		return true;
 	}
 
 	@Override
-	public List<Account> getAll() throws Exception {
+	public List<Account> getAll() throws SQLException {
 
 		ResultSet results = Database.query("select * from accounts");
 
@@ -53,7 +50,7 @@ public class AccountService implements Service<Account> {
   		return accountList;
 	}
 
-	public Account getAccount(String number) throws Exception {
+	public Account getAccount(String number) throws SQLException {
 
 		String selectStatement = String.format("select * from accounts where number = '%s'", number);
 //		System.out.println(selectStatement);
@@ -75,7 +72,7 @@ public class AccountService implements Service<Account> {
 		return null;
 	}
 
-	private Account convertToAccount(ResultSet results) throws Exception {
+	private Account convertToAccount(ResultSet results) throws SQLException {
         Account account = new Account();
         account.setId(results.getInt(1));
         account.setNumber(results.getString(2));
