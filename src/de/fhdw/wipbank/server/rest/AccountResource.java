@@ -29,14 +29,14 @@ public class AccountResource {
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
     public Response getAccount(@PathParam("number") String number) {
         try {
-            logger.info("Find account with number " + number);
+            logger.info("GET /account/" + number);
             Account account = (new FindAccountByNumber()).findAccountByNumber(number);
             return ResponseBuilder.ok(account);
         } catch (ValidationException e) {
-            logger.error(e.getMessage() + " " + number);
+            logger.error(e.getMessage());
             return ResponseBuilder.badRequest(e.getMessage());
         } catch (NotFoundException e) {
-            logger.error(e.getMessage() + " " + number);
+            logger.error("/account/" + number + " not found");
             return ResponseBuilder.notFound(e.getMessage());
         }
     }
@@ -46,15 +46,14 @@ public class AccountResource {
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
     public Response createAccount(@FormParam("owner") String owner) {
         try {
-            logger.info("Create account: " + owner);
+            logger.info("POST /account [owner: '" + owner + "']");
             Account account = (new CreateAccount()).createAccount(owner);
-            logger.info("Created account " + owner + " with number " + account.getNumber());
             return ResponseBuilder.ok(account);
         } catch (ValidationException e) {
-            logger.error(e.getMessage() + " creating account");
+            logger.error("Invalid data '" + owner + "'");
             return ResponseBuilder.badRequest(e.getMessage());
         } catch (ServerException e) {
-            logger.error(e.getMessage() + " creating account");
+            logger.error(e.getMessage());
             return ResponseBuilder.error(e.getMessage());
         }
     }
@@ -78,6 +77,4 @@ public class AccountResource {
         list.setList(accounts);
         return list;
     }
-
-
 }

@@ -49,21 +49,19 @@ public class TransactionResource {
             @FormParam("amount") String amount,
 			@FormParam("reference") String reference) {
         try {
-            logger.info("executeTransaction: " + senderNumber + " -> " + receiverNumber + " sends " + amount);
+            logger.info("POST /transaction [sender: " + senderNumber + ", receiver: " + receiverNumber + ", amount: " +
+					amount + "]");
             (new ExecuteTransaction()).executeTransaction(senderNumber, receiverNumber, amount, reference);
             return Response.ok().build();
         } catch (ValidationException e) {
-            return buildResponse(Status.BAD_REQUEST, e.getMessage());
+            logger.error(e.getMessage());
+            return ResponseBuilder.badRequest(e.getMessage());
         } catch (NotFoundException e) {
-            return buildResponse(Status.NOT_FOUND, e.getMessage());
+            logger.error(e.getMessage());
+            return ResponseBuilder.notFound(e.getMessage());
         } catch (PreconditionFailedException e) {
-            return buildResponse(Status.PRECONDITION_FAILED, e.getMessage());
+            logger.error(e.getMessage());
+            return ResponseBuilder.preconditionFailed(e.getMessage());
         }
     }
-
-	private Response buildResponse(Status status, String msg) {
-        logger.error("executeTransaction[status: " + status.getStatusCode() + "; message: '" + msg + "']");
-		return Response.status(status).entity(msg).build();
-	}
-
 }

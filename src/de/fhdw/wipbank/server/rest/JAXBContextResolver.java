@@ -8,12 +8,19 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.api.json.JSONJAXBContext;
 import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.model.AccountList;
+import de.fhdw.wipbank.server.model.ErrorResponse;
 import de.fhdw.wipbank.server.model.Transaction;
 
 @Provider
 public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 
-    private static final Class<?>[] CLASSES = new Class[] { Account.class, Transaction.class, AccountList.class };
+    private static final Class<?>[] CLASSES = new Class[] {
+            Account.class,
+            Transaction.class,
+            AccountList.class,
+            ErrorResponse.class
+    };
+
     private final JAXBContext context;
 
     public JAXBContextResolver() throws Exception {
