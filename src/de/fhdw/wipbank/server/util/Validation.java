@@ -1,7 +1,7 @@
 package de.fhdw.wipbank.server.util;
 
 public class Validation {
-	public static boolean isReferenceValid(String reference) {
+	public static boolean isReferenceValid(final String reference) {
 		if (reference == null)
 			return false;
 	
@@ -19,7 +19,7 @@ public class Validation {
 		return true;
 	}
 
-	public static boolean isAmountValid(String amount) {
+	public static boolean isAmountValid(final String amount) {
 		if (amount == null)
 			return false;
 		if (amount.equals(""))
@@ -33,7 +33,7 @@ public class Validation {
 		}
 	}
 
-	public static boolean isAccountNumberValid(String accountNumber) {
+	public static boolean isAccountNumberValid(final String accountNumber) {
 		if (accountNumber == null)
 			return false;
 		if (accountNumber.equals(""))
