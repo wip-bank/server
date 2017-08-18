@@ -14,6 +14,7 @@ public class AccountService implements Service<Account> {
 	private static final String TABLE_NAME = "accounts";
 	private static final String CREATE_TABLE = "create table accounts (id int not null primary key generated always as identity (start with 1, increment by 1), number varchar(4) not null unique, owner varchar(64))";
     private static final String INSERT_ACCOUNT = "insert into accounts (owner, number) values (?, ?)";
+	private static final String UPDATE_ACCOUNT = "update accounts set owner = ? where number = ?";
 
 	@Override
     public void createTable() throws SQLException {
@@ -70,6 +71,15 @@ public class AccountService implements Service<Account> {
 	    }
 
 		return null;
+	}
+
+	public Account update(Account account) throws SQLException {
+		PreparedStatement update = Database.getConnection().prepareStatement(UPDATE_ACCOUNT);
+		update.setString(1, account.getOwner());
+		update.setString(2, account.getNumber());
+		update.executeUpdate();
+        update.close();
+		return account;
 	}
 
 	private Account convertToAccount(ResultSet results) throws SQLException {

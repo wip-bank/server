@@ -9,6 +9,7 @@ import com.sun.jersey.spi.resource.Singleton;
 import de.fhdw.wipbank.server.business.CreateAccount;
 import de.fhdw.wipbank.server.business.FindAccountByNumber;
 import de.fhdw.wipbank.server.business.GetAllAccounts;
+import de.fhdw.wipbank.server.business.UpdateAccount;
 import de.fhdw.wipbank.server.exception.NotFoundException;
 import de.fhdw.wipbank.server.exception.ServerException;
 import de.fhdw.wipbank.server.exception.ValidationException;
@@ -66,6 +67,29 @@ public class AccountResource {
             logger.info("GET /account");
             List<Account> accounts = (new GetAllAccounts()).getAll();
             return ResponseBuilder.ok(wrapAccounts(accounts));
+        } catch (ServerException e) {
+            logger.error(e.getMessage());
+            return ResponseBuilder.error(e.getMessage());
+        }
+    }
+
+    @PUT
+    @Path("/{number}")
+    @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
+    public Response updateAccount(
+            @PathParam("number") String number,
+            @FormParam("owner") String owner) {
+        try {
+            // TODO: fix update statement in service
+            logger.info("PUT /account/" + number + " [owner: '" + owner + "']");
+            Account account = (new UpdateAccount()).updateAccount(number, owner);
+            return ResponseBuilder.ok(account);
+        } catch (ValidationException e) {
+            logger.error(e.getMessage());
+            return ResponseBuilder.badRequest(e.getMessage());
+        } catch (NotFoundException e) {
+            logger.error(e.getMessage());
+            return ResponseBuilder.notFound(e.getMessage());
         } catch (ServerException e) {
             logger.error(e.getMessage());
             return ResponseBuilder.error(e.getMessage());

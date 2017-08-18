@@ -1,15 +1,9 @@
 package de.fhdw.wipbank.server.rest;
 
-import java.math.BigDecimal;
-
-import java.util.Date;
-import java.util.concurrent.Semaphore;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import com.sun.jersey.spi.resource.Singleton;
 
@@ -17,12 +11,7 @@ import de.fhdw.wipbank.server.business.ExecuteTransaction;
 import de.fhdw.wipbank.server.exception.NotFoundException;
 import de.fhdw.wipbank.server.exception.PreconditionFailedException;
 import de.fhdw.wipbank.server.exception.ValidationException;
-import de.fhdw.wipbank.server.model.Account;
-import de.fhdw.wipbank.server.model.Transaction;
-import de.fhdw.wipbank.server.service.AccountService;
-import de.fhdw.wipbank.server.service.TransactionService;
 
-import de.fhdw.wipbank.server.util.Validation;
 import org.apache.log4j.Logger;
 
 
