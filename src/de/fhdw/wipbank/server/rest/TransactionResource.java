@@ -3,6 +3,8 @@ package de.fhdw.wipbank.server.rest;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.sun.jersey.spi.resource.Singleton;
@@ -23,6 +25,7 @@ public class TransactionResource {
 
 	@POST
 	@Path("/")
+	@Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
 	/**
 	 * https://stackoverflow.com/a/8194612
 	 * 
