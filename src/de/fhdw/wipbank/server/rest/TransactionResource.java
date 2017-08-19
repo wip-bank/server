@@ -28,7 +28,6 @@ public class TransactionResource {
 
 	@POST
 	@Path("/")
-	@Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
 	/**
 	 * https://stackoverflow.com/a/8194612
 	 * 
