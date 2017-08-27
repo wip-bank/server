@@ -1,20 +1,23 @@
 package de.fhdw.wipbank.server.rest;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.sun.jersey.spi.resource.Singleton;
 
 import de.fhdw.wipbank.server.business.ExecuteTransaction;
+import de.fhdw.wipbank.server.business.GetAllTransactions;
 import de.fhdw.wipbank.server.exception.NotFoundException;
 import de.fhdw.wipbank.server.exception.PreconditionFailedException;
+import de.fhdw.wipbank.server.exception.ServerException;
 import de.fhdw.wipbank.server.exception.ValidationException;
 
+import de.fhdw.wipbank.server.model.Transaction;
+import de.fhdw.wipbank.server.model.TransactionList;
 import org.apache.log4j.Logger;
+
+import java.util.List;
 
 
 @Path("/transaction")
@@ -55,5 +58,23 @@ public class TransactionResource {
             logger.error(e.getMessage());
             return ResponseBuilder.preconditionFailed(e.getMessage());
         }
+    }
+
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
+    public Response getAll() {
+        try {
+            List<Transaction> transactions = (new GetAllTransactions()).getAll();
+            return ResponseBuilder.ok(wrapTransactions(transactions));
+        } catch (ServerException e) {
+            logger.error(e.getMessage());
+            return ResponseBuilder.error(e.getMessage());
+        }
+    }
+
+    private TransactionList wrapTransactions(List<Transaction> transactions) {
+        TransactionList list = new TransactionList();
+        list.setList(transactions);
+        return list;
     }
 }

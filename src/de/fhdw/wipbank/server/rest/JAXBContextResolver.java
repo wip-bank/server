@@ -6,10 +6,7 @@ import javax.xml.bind.JAXBContext;
 
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.api.json.JSONJAXBContext;
-import de.fhdw.wipbank.server.model.Account;
-import de.fhdw.wipbank.server.model.AccountList;
-import de.fhdw.wipbank.server.model.ErrorResponse;
-import de.fhdw.wipbank.server.model.Transaction;
+import de.fhdw.wipbank.server.model.*;
 
 @Provider
 public class JAXBContextResolver implements ContextResolver<JAXBContext> {
@@ -18,6 +15,7 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
             Account.class,
             Transaction.class,
             AccountList.class,
+            TransactionList.class,
             ErrorResponse.class
     };
 
