@@ -97,7 +97,7 @@ public class TransactionService implements Service<Transaction> {
 	public List<Transaction> getTransactionsByAccount(String number) throws SQLException {
 
 		String selectStatement = String.format(
-				"select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number where senderNumber = '%s' or receiverNumber = '%s' order by transactionDate desc",
+				"select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number where senderNumber = '%s' or receiverNumber = '%s' order by transactionDate asc",
 				number, number);
 		// System.out.println(selectStatement);
 		ResultSet resultSet = Database.query(selectStatement);

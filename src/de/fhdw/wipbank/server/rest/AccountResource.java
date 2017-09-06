@@ -80,7 +80,6 @@ public class AccountResource {
             @PathParam("number") String number,
             @FormParam("owner") String owner) {
         try {
-            // TODO: fix update statement in service
             logger.info("PUT /account/" + number + " [owner: '" + owner + "']");
             Account account = (new UpdateAccount()).updateAccount(number, owner);
             return ResponseBuilder.ok(account);
