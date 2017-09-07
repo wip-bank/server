@@ -13,6 +13,7 @@ import de.fhdw.wipbank.server.util.Validation;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 public class ExecuteTransaction {
 
@@ -40,6 +41,7 @@ public class ExecuteTransaction {
         checkParameters(senderNumber, receiverNumber, amount, reference);
         Account sender = findAccountByNumber(senderNumber);
         Account receiver = findAccountByNumber(receiverNumber);
+        checkSolvency(sender, amount);
         createTransaction(sender, receiver, amount, reference);
     }
 
@@ -70,20 +72,52 @@ public class ExecuteTransaction {
      * @return Account
      * @throws NotFoundException
      */
-    private Account findAccountByNumber(String number) throws NotFoundException {
+    private Account findAccountByNumber(String number) throws NotFoundException, ServerException {
         try {
             Account account = accountService.getAccount(number);
             if (account == null) {
                 throw new NotFoundException(number + " not found");
             }
             return account;
-        } catch (Exception e) {
-            throw new NotFoundException(number + " not found");
+        } catch (SQLException e) {
+            throw new ServerException("Internal server error");
         }
     }
 
     /**
      * Schritt 3
+     * Liquidität eines Kontos prüfen
+     *
+     * @param account
+     * @throws PreconditionFailedException
+     */
+    private void checkSolvency(Account account, String amountString) throws PreconditionFailedException {
+        if (isRegularAccount(account)) {
+            BigDecimal balance = calculateBalance(account);
+            checkCondition(balance, convertAmount(amountString));
+        }
+    }
+
+    private boolean isRegularAccount(Account account) {
+        return !account.getNumber().equals("0000");
+    }
+
+    private BigDecimal calculateBalance(Account account) {
+        return account.getTransactions().stream().map(t -> {
+            if (t.getReceiver().getNumber().equals(account.getNumber())) {
+                return t.getAmount();
+            } else {
+                return t.getAmount().negate();
+            }
+        }).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private void checkCondition(BigDecimal balance, BigDecimal amount) throws PreconditionFailedException {
+        if (balance.compareTo(amount) < 0) throw new PreconditionFailedException("Insufficient solvency");
+    }
+
+    /**
+     * Schritt 4
      * Transaktion erstellen
      *
      * @param sender

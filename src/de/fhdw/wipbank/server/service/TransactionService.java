@@ -1,8 +1,10 @@
 package de.fhdw.wipbank.server.service;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +16,8 @@ import de.fhdw.wipbank.server.model.Transaction;
 
 public class TransactionService implements Service<Transaction> {
 
+    private static final String INSERT_TRANSACTION = "insert into transactions (senderNumber, receiverNumber, amount, reference, transactionDate) values (?, ?, ?, ?, ?)";
+
 	@Override
 	public void createTable() throws SQLException {
 		if (!Database.tableExists("transactions")) {
@@ -23,42 +27,16 @@ public class TransactionService implements Service<Transaction> {
 	}
 
 	@Override
-	public boolean create(Transaction object) throws SQLException {
-		boolean success = false;
-		if (Database.tableExists("transactions")) {
-
-			// Falls nicht genug Geld f�r �berweisung, dann verlasse die Methode
-			// (Ausnahme: Bank "0000")
-			if (!object.getSender().getNumber().equals("0000")) {
-				List<Transaction> transactions = new AccountService().getAccount(object.getSender().getNumber())
-						.getTransactions();
-
-				BigDecimal balance = new BigDecimal(0);
-				for (Transaction transaction : transactions) {
-					if (transaction.getSender().getNumber().equals(object.getSender().getNumber()))
-						// Benutzer �berweist Geld an wen anders
-						balance = balance.subtract(transaction.getAmount());
-					else
-						// Benutzer bekommt Geld
-						balance = balance.add(transaction.getAmount());
-				}
-				//System.out.println("Old balance: " + balance);
-				if (object.getAmount().compareTo(balance) == 1) {
-					return false;
-				}
-
-			}
-			String insertStatement = String.format(
-					"insert into transactions (senderNumber, receiverNumber, amount, reference, transactionDate) values ('%s', '%s', %s, '%s', '%s')",
-					object.getSender().getNumber(), object.getReceiver().getNumber(), object.getAmount(),
-					object.getReference(), new java.sql.Timestamp(object.getTransactionDate().getTime()));
-
-			success = Database.execute(insertStatement);
-
-		}
-		return success;
-
-
+	public boolean create(Transaction transaction) throws SQLException {
+        PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_TRANSACTION);
+        insert.setString(1, transaction.getSender().getNumber());
+        insert.setString(2, transaction.getReceiver().getNumber());
+        insert.setBigDecimal(3, transaction.getAmount());
+        insert.setString(4, transaction.getReference());
+        insert.setString(5, new Timestamp(transaction.getTransactionDate().getTime()).toString());
+        insert.execute();
+        insert.close();
+        return true;
 	}
 
 	@Override

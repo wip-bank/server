@@ -37,7 +37,7 @@ public class TransactionResource {
 	 * @param reference
 	 * @return
 	 */
-	public Response executeTransaction(
+	public synchronized Response executeTransaction(
 	        @FormParam("senderNumber") String senderNumber,
 			@FormParam("receiverNumber") String receiverNumber,
             @FormParam("amount") String amount,
@@ -48,16 +48,16 @@ public class TransactionResource {
             (new ExecuteTransaction()).executeTransaction(senderNumber, receiverNumber, amount, reference);
             return Response.ok().build();
         } catch (ValidationException e) {
-            logger.error(e.getMessage());
+            logger.error("400 " + e.getMessage());
             return ResponseBuilder.badRequest(e.getMessage());
         } catch (NotFoundException e) {
-            logger.error(e.getMessage());
+            logger.error("404 " + e.getMessage());
             return ResponseBuilder.notFound(e.getMessage());
         } catch (PreconditionFailedException e) {
-            logger.error(e.getMessage());
+            logger.error("412 " + e.getMessage());
             return ResponseBuilder.preconditionFailed(e.getMessage());
         } catch (ServerException e) {
-            logger.error(e.getMessage());
+            logger.error("500 " + e.getMessage());
             return ResponseBuilder.error(e.getMessage());
         }
     }
