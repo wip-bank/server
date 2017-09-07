@@ -2,6 +2,7 @@ package de.fhdw.wipbank.server.business;
 
 import de.fhdw.wipbank.server.exception.NotFoundException;
 import de.fhdw.wipbank.server.exception.PreconditionFailedException;
+import de.fhdw.wipbank.server.exception.ServerException;
 import de.fhdw.wipbank.server.exception.ValidationException;
 import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.model.Transaction;
@@ -10,6 +11,7 @@ import de.fhdw.wipbank.server.service.TransactionService;
 import de.fhdw.wipbank.server.util.Validation;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class ExecuteTransaction {
@@ -33,7 +35,8 @@ public class ExecuteTransaction {
      * @throws NotFoundException
      */
     public synchronized void executeTransaction(String senderNumber, String receiverNumber, String amount,
-            String reference) throws ValidationException, NotFoundException, PreconditionFailedException {
+            String reference) throws ValidationException, NotFoundException, PreconditionFailedException,
+            ServerException {
         checkParameters(senderNumber, receiverNumber, amount, reference);
         Account sender = findAccountByNumber(senderNumber);
         Account receiver = findAccountByNumber(receiverNumber);
@@ -90,22 +93,26 @@ public class ExecuteTransaction {
      * @throws PreconditionFailedException
      */
     private void createTransaction(Account sender, Account receiver, String amountString, String reference)
-            throws PreconditionFailedException {
-        BigDecimal amount = convertAmount(amountString);
+            throws PreconditionFailedException, ServerException {
+        Transaction transaction = buildTransaction(sender, receiver, convertAmount(amountString), reference);
+        try {
+            boolean success = transactionService.create(transaction);
+            if (!success) {
+                throw new PreconditionFailedException("Insufficient solvency");
+            }
+        } catch (SQLException e) {
+            throw new ServerException("Internal server error");
+        }
+    }
+
+    private Transaction buildTransaction(Account sender, Account receiver, BigDecimal amount, String reference) {
         Transaction transaction = new Transaction();
         transaction.setSender(sender);
         transaction.setReceiver(receiver);
         transaction.setAmount(amount);
         transaction.setReference(reference);
         transaction.setTransactionDate(new Date(System.currentTimeMillis()));
-        try {
-            boolean success = transactionService.create(transaction);
-            if (!success) {
-                throw new PreconditionFailedException("Insufficient solvency");
-            }
-        } catch (Exception e) {
-            throw new PreconditionFailedException("Insufficient solvency");
-        }
+        return transaction;
     }
 
     private BigDecimal convertAmount(String amount) {

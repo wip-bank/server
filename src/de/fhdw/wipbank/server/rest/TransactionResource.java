@@ -56,6 +56,9 @@ public class TransactionResource {
         } catch (PreconditionFailedException e) {
             logger.error(e.getMessage());
             return ResponseBuilder.preconditionFailed(e.getMessage());
+        } catch (ServerException e) {
+            logger.error(e.getMessage());
+            return ResponseBuilder.error(e.getMessage());
         }
     }
 

@@ -22,10 +22,10 @@ public class Application {
         Account philipp = helper.createAccount("Philipp", "1001");
         Account jannis = helper.createAccount("Jannis", "1002");
         Account alexander = helper.createAccount("Alexander", "1003");
-        helper.createTransaction(bank, daniel, BigDecimal.valueOf(1000000.00));
-        helper.createTransaction(bank, philipp, BigDecimal.valueOf(1000000.00));
-        helper.createTransaction(bank, jannis, BigDecimal.valueOf(1000000.00));
-        helper.createTransaction(bank, alexander, BigDecimal.valueOf(1000000.00));
+        helper.createTransaction(bank, daniel, BigDecimal.valueOf(1000000000.00));
+        helper.createTransaction(bank, philipp, BigDecimal.valueOf(1000000000.00));
+        helper.createTransaction(bank, jannis, BigDecimal.valueOf(1000000000.00));
+        helper.createTransaction(bank, alexander, BigDecimal.valueOf(1000000000.00));
     }
 
 }
