@@ -63,6 +63,7 @@ public class TransactionResource {
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
     public Response getAll() {
         try {
+            logger.info("GET /transaction");
             List<Transaction> transactions = (new GetAllTransactions()).getAll();
             return ResponseBuilder.ok(wrapTransactions(transactions));
         } catch (ServerException e) {
