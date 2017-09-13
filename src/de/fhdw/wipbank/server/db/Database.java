@@ -18,7 +18,7 @@ public class Database {
 
 	public static ResultSet query(String sql) throws SQLException {
         Connection connection = getConnection();
-    	connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); // Sorgt dafür, dass die Datensätze nicht gelockt werden. -> wichtig für Owner Namen ändern
+    	connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
         Statement statement = connection.createStatement();
         ResultSet result = statement.executeQuery(sql);
         //statement.close();

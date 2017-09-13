@@ -10,6 +10,9 @@ import org.apache.log4j.Logger;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * Helper Methoden für Testdaten
+ */
 public class TestDataHelper {
 
     private static Logger logger = Logger.getLogger(TestDataHelper.class);
@@ -22,6 +25,9 @@ public class TestDataHelper {
         transactionService = new TransactionService();
     }
 
+    /**
+     * Löscht alle Tabellen und setzt sie danach neu auf
+     */
     public void wipeDatabase() {
         try {
             if (Database.tableExists("accounts")) {
@@ -39,6 +45,14 @@ public class TestDataHelper {
         }
     }
 
+    /**
+     * Erstellt einen Account
+     * Business Rules werden nicht beachtet
+     *
+     * @param owner
+     * @param number
+     * @return
+     */
     public Account createAccount(String owner, String number) {
         try {
             Account account = new Account();
@@ -53,6 +67,15 @@ public class TestDataHelper {
         }
     }
 
+    /**
+     * Erstellt Transaktion
+     * Business Rules werden nicht beachtet
+     *
+     * @param sender
+     * @param receiver
+     * @param amount
+     * @return
+     */
     public Transaction createTransaction(Account sender, Account receiver, BigDecimal amount) {
         try {
             Transaction transaction = new Transaction();

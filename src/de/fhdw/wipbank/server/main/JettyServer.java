@@ -20,6 +20,11 @@ import org.apache.log4j.PatternLayout;
 
 public class JettyServer {
 
+	/**
+	 * Startet den Jetty Server
+	 *
+	 * @throws Exception
+	 */
 	public static void run() throws Exception {
 		Server server = new Server(9998);
 
@@ -43,6 +48,11 @@ public class JettyServer {
 	    logger.addAppender( fileAppender );
 	}
 
+	/**
+	 * Setup für die REST API
+	 *
+	 * @return
+	 */
 	private static Handler buildRestHandler() {
 		ResourceConfig resourceConfig = new PackagesResourceConfig("de.fhdw.wipbank.server.rest");
 		ServletContextHandler sh = new ServletContextHandler();
@@ -51,6 +61,11 @@ public class JettyServer {
 		return sh;
 	}
 
+	/**
+	 * Setup für die Angular App
+	 *
+	 * @return
+	 */
 	private static Handler buildAngularHandler() {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);

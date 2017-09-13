@@ -34,18 +34,10 @@ public class AccountService implements Service<Account> {
 
 	@Override
 	public List<Account> getAll() throws SQLException {
-
 		ResultSet results = Database.query("select * from accounts");
-
-//		System.out.println("Table accounts:");
-
   		List<Account> accountList = new ArrayList<Account>();
   		while (results.next()) {
-  			//F�r jeden Tabelleneintrag in der Datenbank, wird ein neues Account-Objekt erstellt
-  			//und mit den Daten aus dem Eintrag bef�llt.
             Account account = convertToAccount(results);
-//  			System.out.println(String.format("ID: %s, Number: %s, Owner: %s", account.getId(), account.getNumber(), account.getOwner()));
-  			//Anschlie�end wird das erstellt Objekt der Accountliste hinzugef�gt
   			accountList.add(account);
   		}
   		return accountList;

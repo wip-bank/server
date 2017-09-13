@@ -9,11 +9,20 @@ import de.fhdw.wipbank.server.util.TestDataHelper;
 
 public class Application {
 
+    /**
+     * Einstieg in das Projekt
+     * 
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         JettyServer.run();
         initTestData();
     }
 
+    /**
+     * Testdaten werden initialisiert
+     */
     private static void initTestData() {
         TestDataHelper helper = new TestDataHelper();
         helper.wipeDatabase();

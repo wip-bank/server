@@ -1,6 +1,13 @@
 package de.fhdw.wipbank.server.util;
 
 public class Validation {
+
+    /**
+     * Prüft ob ein Betreff valide ist
+     *
+     * @param reference
+     * @return
+     */
 	public static boolean isReferenceValid(final String reference) {
 		if (reference == null)
 			return false;
@@ -19,6 +26,12 @@ public class Validation {
 		return true;
 	}
 
+    /**
+     * Prüft ob ein Betrag als String valide ist
+     *
+     * @param amount
+     * @return
+     */
 	public static boolean isAmountValid(final String amount) {
 		if (amount == null)
 			return false;
@@ -33,6 +46,12 @@ public class Validation {
 		}
 	}
 
+    /**
+     * Prüft ob eine Account Nummer valide ist
+     *
+     * @param accountNumber
+     * @return
+     */
 	public static boolean isAccountNumberValid(final String accountNumber) {
 		if (accountNumber == null)
 			return false;
