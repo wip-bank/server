@@ -11,19 +11,19 @@ public class ResponseBuilder {
     }
 
     public static Response notFound(String message) {
-        return buildResponse(Response.Status.NOT_FOUND, buildError(message));
+        return buildResponse(Response.Status.NOT_FOUND, message);
     }
 
     public static Response badRequest(String message) {
-        return buildResponse(Response.Status.BAD_REQUEST, buildError(message));
+        return buildResponse(Response.Status.BAD_REQUEST, message);
     }
 
     public static Response preconditionFailed(String message) {
-        return buildResponse(Response.Status.PRECONDITION_FAILED, buildError(message));
+        return buildResponse(Response.Status.PRECONDITION_FAILED, message);
     }
 
     public static Response error(String message) {
-        return buildResponse(Response.Status.INTERNAL_SERVER_ERROR, buildError(message));
+        return buildResponse(Response.Status.INTERNAL_SERVER_ERROR, message);
     }
 
     private static Response buildResponse(Response.Status status, Object object) {

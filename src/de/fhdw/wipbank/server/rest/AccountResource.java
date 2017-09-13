@@ -76,6 +76,7 @@ public class AccountResource {
     @PUT
     @Path("/{number}")
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response updateAccount(
             @PathParam("number") String number,
             @FormParam("owner") String owner) {
