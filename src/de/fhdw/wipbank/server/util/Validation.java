@@ -1,5 +1,7 @@
 package de.fhdw.wipbank.server.util;
 
+import java.math.BigDecimal;
+
 public class Validation {
 
     /**
@@ -38,8 +40,9 @@ public class Validation {
 		if (amount.equals(""))
 			return false;
 		try {
-			if (Double.valueOf(amount) <= 0)
-				return false;
+			if (new BigDecimal(amount).compareTo(BigDecimal.ZERO) == -1) {
+                return false;
+            }
 			return amount.matches("^\\d+(\\.\\d{1,2})?$");
 		} catch (NumberFormatException e) {
 			return false;
@@ -57,8 +60,6 @@ public class Validation {
 			return false;
 		if (accountNumber.equals(""))
 			return false;
-		if (accountNumber.equals("0000"))
-			return true;
 		return accountNumber.matches("^[1]+\\d{3}$");
 	}
 }

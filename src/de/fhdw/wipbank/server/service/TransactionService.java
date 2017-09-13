@@ -22,7 +22,7 @@ public class TransactionService implements Service<Transaction> {
 	public void createTable() throws SQLException {
 		if (!Database.tableExists("transactions")) {
 			Database.execute(
-					"create table transactions (id int not null primary key generated always as identity (start with 1, increment by 1), senderNumber varchar(4) not null, receiverNumber varchar(4) not null, amount decimal(15, 2), reference varchar(64), transactionDate timestamp )");
+					"create table transactions (id int not null primary key generated always as identity (start with 1, increment by 1), senderNumber varchar(4) not null, receiverNumber varchar(4) not null, amount decimal(20, 2), reference varchar(64), transactionDate timestamp )");
 		}
 	}
 
