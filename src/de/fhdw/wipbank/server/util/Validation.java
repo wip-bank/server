@@ -40,7 +40,7 @@ public class Validation {
 		if (amount.equals(""))
 			return false;
 		try {
-			if (new BigDecimal(amount).compareTo(BigDecimal.ZERO) == -1) {
+			if (new BigDecimal(amount).compareTo(BigDecimal.ZERO) < 1 ) {
                 return false;
             }
 			return amount.matches("^\\d+(\\.\\d{1,2})?$");
