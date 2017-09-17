@@ -70,7 +70,7 @@ public class JettyServer {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
         resourceHandler.setWelcomeFiles(new String[]{ "index.html" });
-        resourceHandler.setResourceBase("../de.fhdw.wipbank.client.angular");
+        resourceHandler.setResourceBase("de.fhdw.wipbank.client.angular");
         ContextHandler contextHandler = new ContextHandler("/angular");
         contextHandler.setHandler(resourceHandler);
         return contextHandler;
