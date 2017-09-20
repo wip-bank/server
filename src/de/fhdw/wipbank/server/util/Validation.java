@@ -17,15 +17,7 @@ public class Validation {
 		if (reference.equals(""))
 			return false;
 
-		char[] chars = reference.toCharArray();
-
-		for (char c : chars) {
-			if (!Character.isLowerCase(c) && !Character.isUpperCase(c) && !Character.isDigit(c) && !Character.isWhitespace(c)) {
-				return false;
-			}
-		}
-
-		return true;
+		return reference.matches("^[A-Za-z0-9 ]*$");
 	}
 
     /**
@@ -76,13 +68,6 @@ public class Validation {
 		if (owner.equals(""))
 			return false;
 
-		char[] chars = owner.toCharArray();
-		for (char c : chars) {
-			if (!Character.isLowerCase(c) && !Character.isUpperCase(c) ) {
-				return false;
-			}
-		}
-
-		return true;
+		return owner.matches("^[A-Za-z]*$");
 	}
 }
