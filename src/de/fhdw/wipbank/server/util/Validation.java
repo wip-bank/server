@@ -20,7 +20,7 @@ public class Validation {
 		char[] chars = reference.toCharArray();
 
 		for (char c : chars) {
-			if (!Character.isLetter(c) && !Character.isDigit(c) && !Character.isWhitespace(c)) {
+			if (!Character.isLowerCase(c) && !Character.isUpperCase(c) && !Character.isDigit(c) && !Character.isWhitespace(c)) {
 				return false;
 			}
 		}
@@ -61,5 +61,28 @@ public class Validation {
 		if (accountNumber.equals(""))
 			return false;
 		return accountNumber.matches("^[1]+\\d{3}$");
+	}
+	
+	/**
+     * Prüft ob ein Owner valide ist
+     *
+     * @param owner
+     * @return
+     */
+	public static boolean isOwnerValid(final String owner) {
+		if (owner == null)
+			return false;
+	
+		if (owner.equals(""))
+			return false;
+
+		char[] chars = owner.toCharArray();
+		for (char c : chars) {
+			if (!Character.isLowerCase(c) && !Character.isUpperCase(c) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

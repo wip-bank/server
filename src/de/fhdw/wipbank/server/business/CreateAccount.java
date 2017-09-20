@@ -33,7 +33,7 @@ public class CreateAccount {
      * @throws ValidationException
      */
     private void checkParamter(String owner) throws ValidationException{
-        if (!Validation.isReferenceValid(owner)) {
+        if (!Validation.isOwnerValid(owner)) {
             throw new ValidationException("Invalid owner name");
         }
     }

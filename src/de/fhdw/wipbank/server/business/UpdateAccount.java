@@ -38,7 +38,7 @@ public class UpdateAccount {
      */
     private void checkParameters(String number, String owner) throws ValidationException {
         if (!Validation.isAccountNumberValid(number)) throw new ValidationException("Invalid account number");
-        if (!Validation.isReferenceValid(owner)) throw new ValidationException("Invalid owner name");
+        if (!Validation.isOwnerValid(owner)) throw new ValidationException("Invalid owner name");
     }
 
     /**
