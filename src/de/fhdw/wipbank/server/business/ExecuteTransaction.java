@@ -57,11 +57,11 @@ public class ExecuteTransaction {
      */
     private void checkParameters(String senderNumber, String receiverNumber, String amount, String reference)
             throws ValidationException {
-        if (!Validation.isReferenceValid(reference)) throw new ValidationException("Invalid reference");
-        if (!Validation.isAmountValid(amount)) throw new ValidationException("Invalid amount");
         if (!Validation.isAccountNumberValid(senderNumber)) throw new ValidationException("Invalid sender");
         if (!Validation.isAccountNumberValid(receiverNumber)) throw new ValidationException("Invalid receiver");
         if (senderNumber.equals(receiverNumber)) throw new ValidationException("Sender and receiver cannot be equal");
+        if (!Validation.isAmountValid(amount)) throw new ValidationException("Invalid amount");
+        if (!Validation.isReferenceValid(reference)) throw new ValidationException("Invalid reference");
     }
 
     /**
