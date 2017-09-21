@@ -35,7 +35,7 @@ public class Validation {
 			if (new BigDecimal(amount).compareTo(BigDecimal.ZERO) < 1 ) {
                 return false;
             }
-			return amount.matches("^\\d+(\\.\\d{1,2})?$");
+			return amount.matches("^\\d+(\\.\\d{2})?$");
 		} catch (NumberFormatException e) {
 			return false;
 		}
