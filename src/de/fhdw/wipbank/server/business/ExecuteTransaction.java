@@ -26,7 +26,7 @@ public class ExecuteTransaction {
     }
 
     /**
-     * Transaktion durchführen
+     * Führt eine atomare Transaktion durch
      *
      * @param senderNumber
      * @param receiverNumber

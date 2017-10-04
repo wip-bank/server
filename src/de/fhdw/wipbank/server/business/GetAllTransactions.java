@@ -15,6 +15,12 @@ public class GetAllTransactions {
         this.transactionService = new TransactionService();
     }
 
+    /**
+     * Erstellt eine Liste aller Transaktionen
+     *
+     * @return
+     * @throws ServerException
+     */
     public List<Transaction> getAll() throws ServerException {
         try {
             return transactionService.getAll();

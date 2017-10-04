@@ -14,6 +14,14 @@ public class FindAccountByNumber {
         accountService = new AccountService();
     }
 
+    /**
+     * Sucht nach einem Account mit der angegebenen Kontonummer
+     *
+     * @param number
+     * @return
+     * @throws ValidationException
+     * @throws NotFoundException
+     */
     public Account findAccountByNumber(String number) throws ValidationException, NotFoundException {
         checkParameter(number);
         return getAccount(number);

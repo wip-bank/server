@@ -15,6 +15,12 @@ public class GetAllAccounts {
         accountService = new AccountService();
     }
 
+    /**
+     * Erstellt eine Liste aller Accounts
+     *
+     * @return
+     * @throws ServerException
+     */
     public List<Account> getAll() throws ServerException {
         try {
             return accountService.getAll();

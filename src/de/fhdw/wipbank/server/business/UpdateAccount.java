@@ -20,6 +20,16 @@ public class UpdateAccount {
         accountService = new AccountService();
     }
 
+    /**
+     * Ändert den Namen eines Accounts
+     *
+     * @param number
+     * @param owner
+     * @return
+     * @throws ValidationException
+     * @throws NotFoundException
+     * @throws ServerException
+     */
     public Account updateAccount(String number, String owner) throws ValidationException, NotFoundException,
             ServerException {
         checkParameters(number, owner);

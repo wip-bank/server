@@ -19,6 +19,14 @@ public class CreateAccount {
         accountService = new AccountService();
     }
 
+    /**
+     * Erstellt einen neuen Account und vergibt eine Kontonummer
+     *
+     * @param owner
+     * @return
+     * @throws ValidationException
+     * @throws ServerException
+     */
     public Account createAccount(String owner) throws ValidationException, ServerException {
         checkParamter(owner);
         String number = determineNumber();
