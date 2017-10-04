@@ -38,6 +38,7 @@ public class UpdateAccount {
      */
     private void checkParameters(String number, String owner) throws ValidationException {
         if (!Validation.isAccountNumberValid(number)) throw new ValidationException("Invalid account number");
+        if (number.equals("0000")) throw new ValidationException("You cannot change the banks name");
         if (!Validation.isOwnerValid(owner)) throw new ValidationException("Invalid owner name");
     }
 

@@ -48,15 +48,19 @@ public class Validation {
      * @return
      */
 	public static boolean isAccountNumberValid(final String accountNumber) {
-		if (accountNumber == null)
+		if (accountNumber == null) {
 			return false;
-		if (accountNumber.equals(""))
+		} else if (accountNumber.equals("")) {
 			return false;
-		return accountNumber.matches("^[1]+\\d{3}$");
+		} else if (accountNumber.equals("0000")) {
+			return true;
+		} else {
+			return accountNumber.matches("^[1]+\\d{3}$");
+		}
 	}
-	
+
 	/**
-     * Prüft ob ein Owner valide ist
+     * PrÃ¼ft ob ein Owner valide ist
      *
      * @param owner
      * @return
