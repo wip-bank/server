@@ -6,15 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
-import java.util.concurrent.Semaphore;
 
 public class Database {
-	
-	private static Semaphore executeSemaphor = new Semaphore(1);
 
-    public static Semaphore getExecuteSemaphor() {
-		return executeSemaphor;
-	}
+
 
 	public static ResultSet query(String sql) throws SQLException {
         Connection connection = getConnection();
@@ -31,7 +26,7 @@ public class Database {
         Statement statement = connection.createStatement();
         int rowsAffected = statement.executeUpdate(sql);
         statement.close();
-        
+
         connection.close();
         return rowsAffected > 0;
     }
@@ -68,6 +63,6 @@ public class Database {
         properties.put("user", "user");
         return properties;
     }
- 
+
 
 }
