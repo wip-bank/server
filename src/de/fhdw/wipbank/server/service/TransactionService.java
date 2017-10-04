@@ -18,6 +18,11 @@ public class TransactionService implements Service<Transaction> {
 
     private static final String INSERT_TRANSACTION = "insert into transactions (senderNumber, receiverNumber, amount, reference, transactionDate) values (?, ?, ?, ?, ?)";
 
+	/**
+	 * Erstellt die Transaktions Tabelle, falls sie noch nicht existiert
+	 *
+	 * @throws SQLException
+	 */
 	@Override
 	public void createTable() throws SQLException {
 		if (!Database.tableExists("transactions")) {
@@ -26,6 +31,13 @@ public class TransactionService implements Service<Transaction> {
 		}
 	}
 
+	/**
+	 * Erstellt eine neue Transaktion in der Datenbank
+	 *
+	 * @param transaction
+	 * @return
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Transaction transaction) throws SQLException {
         PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_TRANSACTION);
@@ -39,12 +51,17 @@ public class TransactionService implements Service<Transaction> {
         return true;
 	}
 
+	/**
+	 * Sucht nach allen Transaktionen in der Datenbank
+	 *
+	 * @return
+	 * @throws SQLException
+	 */
 	@Override
 	public List<Transaction> getAll() throws SQLException {
 		ResultSet resultSet = Database.query(
 				"select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number order by transactionDate desc ");
 
-		// System.out.println("Table transactions:");
 
 		List<Transaction> transactionList = new LinkedList<Transaction>();
 		while (resultSet.next()) {
@@ -64,22 +81,23 @@ public class TransactionService implements Service<Transaction> {
 			transaction.setAmount(resultSet.getBigDecimal(4));
 			transaction.setReference(resultSet.getString(5));
 			transaction.setTransactionDate(new Date(resultSet.getTimestamp(6).getTime()));
-			// System.out.println(String.format("ID: %s, Sender: %s, Receiver: %s, Amount:
-			// %s, Reference: %s, TransactionDate: %s", transaction.getId(),
-			// transaction.getSender().getNumber(), transaction.getReceiver().getNumber(),
-			// transaction.getAmount(), transaction.getReference(),
-			// transaction.getTransactionDate()));
 			transactionList.add(transaction);
 		}
 		return transactionList;
 	}
 
+	/**
+	 * Sucht nach allen Transaktionen eines bestimmten Accounts
+	 *
+	 * @param number
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<Transaction> getTransactionsByAccount(String number) throws SQLException {
 
 		String selectStatement = String.format(
 				"select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number where senderNumber = '%s' or receiverNumber = '%s' order by transactionDate asc",
 				number, number);
-		// System.out.println(selectStatement);
 		ResultSet resultSet = Database.query(selectStatement);
 
 		List<Transaction> transactionList = new LinkedList<Transaction>();
@@ -100,11 +118,6 @@ public class TransactionService implements Service<Transaction> {
 			transaction.setAmount(resultSet.getBigDecimal(4));
 			transaction.setReference(resultSet.getString(5));
 			transaction.setTransactionDate(new Date(resultSet.getTimestamp(6).getTime()));
-			// System.out.println(String.format("ID: %s, Sender: %s, Receiver: %s, Amount:
-			// %s, Reference: %s, TransactionDate: %s", transaction.getId(),
-			// transaction.getSender().getNumber(), transaction.getReceiver().getNumber(),
-			// transaction.getAmount(), transaction.getReference(),
-			// transaction.getTransactionDate()));
 			transactionList.add(transaction);
 		}
 		return transactionList;

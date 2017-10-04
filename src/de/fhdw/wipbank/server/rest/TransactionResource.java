@@ -26,17 +26,17 @@ public class TransactionResource {
 
 	private static Logger logger = Logger.getLogger(TransactionResource.class);
 
+    /**
+     * Führt eine Transaktion durch
+     *
+     * @param senderNumber
+     * @param receiverNumber
+     * @param amount
+     * @param reference
+     * @return
+     */
 	@POST
 	@Path("/")
-	/**
-	 * https://stackoverflow.com/a/8194612
-	 * 
-	 * @param senderNumber
-	 * @param receiverNumber
-	 * @param amount
-	 * @param reference
-	 * @return
-	 */
 	public synchronized Response executeTransaction(
 	        @FormParam("senderNumber") String senderNumber,
 			@FormParam("receiverNumber") String receiverNumber,
@@ -62,6 +62,11 @@ public class TransactionResource {
         }
     }
 
+    /**
+     * Gibt alle Transaktionen zurück
+     *
+     * @return
+     */
     @GET
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
     public Response getAll() {

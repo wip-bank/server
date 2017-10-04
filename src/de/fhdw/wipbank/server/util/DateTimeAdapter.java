@@ -13,11 +13,25 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class DateTimeAdapter extends XmlAdapter<String, Date>{
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
+    /**
+     * Ein Datum parsen
+     *
+     * @param xml
+     * @return
+     * @throws Exception
+     */
     @Override
     public Date unmarshal(String xml) throws Exception {
         return dateFormat.parse(xml);
     }
 
+    /**
+     * Ein Datum in einen String umwandeln
+     *
+     * @param object
+     * @return
+     * @throws Exception
+     */
     @Override
     public String marshal(Date object) throws Exception {
         return dateFormat.format(object);

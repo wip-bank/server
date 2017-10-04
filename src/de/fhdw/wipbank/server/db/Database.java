@@ -10,7 +10,13 @@ import java.util.Properties;
 public class Database {
 
 
-
+    /**
+     * Eine Anfrage an die Datenbank senden
+     *
+     * @param sql
+     * @return
+     * @throws SQLException
+     */
 	public static ResultSet query(String sql) throws SQLException {
         Connection connection = getConnection();
     	connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
@@ -21,6 +27,13 @@ public class Database {
         return result;
     }
 
+    /**
+     * Einen SQL Befehl auf der Datenbank ausführen
+     *
+     * @param sql
+     * @return
+     * @throws SQLException
+     */
     public static boolean execute(String sql) throws SQLException {
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
@@ -31,6 +44,12 @@ public class Database {
         return rowsAffected > 0;
     }
 
+    /**
+     * Prüft, ob die Tabelle in der Datenbank existiert
+     *
+     * @param table
+     * @return
+     */
     public static boolean tableExists(String table) {
         try {
             Connection connection = getConnection();
@@ -49,6 +68,11 @@ public class Database {
         }
     }
 
+    /**
+     * Stellt eine Verbindung zur Datenbank her
+     *
+     * @return
+     */
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:derby:database;create=true", getCredentials());
@@ -63,6 +87,4 @@ public class Database {
         properties.put("user", "user");
         return properties;
     }
-
-
 }

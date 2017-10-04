@@ -25,6 +25,12 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
         this.context = new JSONJAXBContext(JSONConfiguration.natural().humanReadableFormatting(true).build(), CLASSES);
     }
 
+    /**
+     * JAXB Methode
+     *
+     * @param objectType
+     * @return
+     */
     @Override
     public JAXBContext getContext(Class<?> objectType) {
         return context;

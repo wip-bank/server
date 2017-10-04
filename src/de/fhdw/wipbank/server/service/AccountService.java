@@ -16,6 +16,11 @@ public class AccountService implements Service<Account> {
     private static final String INSERT_ACCOUNT = "insert into accounts (owner, number) values (?, ?)";
 	private static final String UPDATE_ACCOUNT = "update accounts set owner = ? where number = ?";
 
+	/**
+	 * Erstellt die Account Tabelle, falls sie noch nicht existiert
+	 *
+	 * @throws SQLException
+	 */
 	@Override
     public void createTable() throws SQLException {
         if (!Database.tableExists(TABLE_NAME)) {
@@ -23,6 +28,13 @@ public class AccountService implements Service<Account> {
         }
     }
 
+	/**
+	 * Fügt einen neuen Account in die Datenbank ein
+	 *
+	 * @param account
+	 * @return
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Account account) throws SQLException {
         PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_ACCOUNT);
@@ -32,6 +44,12 @@ public class AccountService implements Service<Account> {
 		return true;
 	}
 
+	/**
+	 * Sucht nach allen Accounts in der Datenbank
+	 *
+	 * @return
+	 * @throws SQLException
+	 */
 	@Override
 	public List<Account> getAll() throws SQLException {
 		ResultSet results = Database.query("select * from accounts");
@@ -43,10 +61,16 @@ public class AccountService implements Service<Account> {
   		return accountList;
 	}
 
+	/**
+	 * Sucht nach einem speziellen Account in der Datenbank
+	 *
+	 * @param number
+	 * @return
+	 * @throws SQLException
+	 */
 	public Account getAccount(String number) throws SQLException {
 
 		String selectStatement = String.format("select * from accounts where number = '%s'", number);
-//		System.out.println(selectStatement);
 		ResultSet resultSet = Database.query(selectStatement);
 
 	    if (resultSet.next()){
@@ -65,6 +89,12 @@ public class AccountService implements Service<Account> {
 		return null;
 	}
 
+	/**
+	 * Ändert das Feld "owner" an einem Account in der Datenbank
+	 * @param account
+	 * @return
+	 * @throws SQLException
+	 */
 	public Account update(Account account) throws SQLException {
 		PreparedStatement update = Database.getConnection().prepareStatement(UPDATE_ACCOUNT);
 		update.setString(1, account.getOwner());

@@ -25,6 +25,12 @@ public class AccountResource {
 
     private static final Logger logger = Logger.getLogger(AccountResource.class);
 
+    /**
+     * Sucht nach dem Account mit der angegebenen Kontonummer
+     *
+     * @param number
+     * @return
+     */
     @GET
     @Path("/{number}")
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
@@ -42,6 +48,12 @@ public class AccountResource {
         }
     }
 
+    /**
+     * Erstellt einen neuen Account
+     *
+     * @param owner
+     * @return
+     */
     @POST
     @Path("/")
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
@@ -59,6 +71,11 @@ public class AccountResource {
         }
     }
 
+    /**
+     * Gibt eine Liste aller Accounts zurück
+     *
+     * @return
+     */
     @GET
     @Path("/")
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
@@ -73,6 +90,13 @@ public class AccountResource {
         }
     }
 
+    /**
+     * Ändert den Nutzernamen eines Accounts
+     *
+     * @param number
+     * @param owner
+     * @return
+     */
     @PUT
     @Path("/{number}")
     @Produces({ MediaType.APPLICATION_JSON + "; charset=utf-8" })
