@@ -14,7 +14,7 @@ import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.model.Transaction;
 
-public class TransactionService implements Service<Transaction> {
+public class TransactionService {
 
     private static final String INSERT_TRANSACTION = "insert into transactions (senderNumber, receiverNumber, amount, reference, transactionDate) values (?, ?, ?, ?, ?)";
 
@@ -23,7 +23,6 @@ public class TransactionService implements Service<Transaction> {
 	 *
 	 * @throws SQLException
 	 */
-	@Override
 	public void createTable() throws SQLException {
 		if (!Database.tableExists("transactions")) {
 			Database.execute(
@@ -38,7 +37,6 @@ public class TransactionService implements Service<Transaction> {
 	 * @return
 	 * @throws SQLException
 	 */
-	@Override
 	public boolean create(Transaction transaction) throws SQLException {
         PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_TRANSACTION);
         insert.setString(1, transaction.getSender().getNumber());
@@ -57,7 +55,6 @@ public class TransactionService implements Service<Transaction> {
 	 * @return
 	 * @throws SQLException
 	 */
-	@Override
 	public List<Transaction> getAll() throws SQLException {
 		ResultSet resultSet = Database.query(
 				"select T1.id, T1.senderNumber, T1.receiverNumber, T1.amount, T1.reference, T1.transactionDate, T2.owner as senderOwner, T3.owner as receiverOwner from transactions as T1 join accounts as T2 on T1.senderNumber = T2.number join accounts as T3 on T1.receiverNumber = T3.number order by transactionDate desc ");

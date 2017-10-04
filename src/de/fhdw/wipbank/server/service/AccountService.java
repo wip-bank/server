@@ -9,7 +9,7 @@ import java.util.List;
 import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
 
-public class AccountService implements Service<Account> {
+public class AccountService {
 
 	private static final String TABLE_NAME = "accounts";
 	private static final String CREATE_TABLE = "create table accounts (id int not null primary key generated always as identity (start with 1, increment by 1), number varchar(4) not null unique, owner varchar(64))";
@@ -21,7 +21,6 @@ public class AccountService implements Service<Account> {
 	 *
 	 * @throws SQLException
 	 */
-	@Override
     public void createTable() throws SQLException {
         if (!Database.tableExists(TABLE_NAME)) {
             Database.execute(CREATE_TABLE);
@@ -35,7 +34,6 @@ public class AccountService implements Service<Account> {
 	 * @return
 	 * @throws SQLException
 	 */
-	@Override
 	public boolean create(Account account) throws SQLException {
         PreparedStatement insert = Database.getConnection().prepareStatement(INSERT_ACCOUNT);
         insert.setString(1, account.getOwner());
@@ -50,7 +48,6 @@ public class AccountService implements Service<Account> {
 	 * @return
 	 * @throws SQLException
 	 */
-	@Override
 	public List<Account> getAll() throws SQLException {
 		ResultSet results = Database.query("select * from accounts");
   		List<Account> accountList = new ArrayList<Account>();
