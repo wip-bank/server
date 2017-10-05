@@ -11,13 +11,16 @@ public class Application {
 
     /**
      * Einstieg in das Projekt
-     * 
+     *
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
         JettyServer.run();
-        initTestData();
+        /* Testbetrieb abgeschlossen -> Keine Testdaten mehr notwendig.
+         * Bei weiterer Programmierung können die Testdaten jedoch wieder reaktiviert werden.
+         * initTestData();
+         */
     }
 
     /**
