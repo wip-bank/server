@@ -1,7 +1,5 @@
 package de.fhdw.wipbank.server.rest;
 
-import de.fhdw.wipbank.server.model.ErrorResponse;
-
 import javax.ws.rs.core.Response;
 
 public class ResponseBuilder {

@@ -1,18 +1,15 @@
 package de.fhdw.wipbank.server.business;
 
+import java.sql.SQLException;
+
 import de.fhdw.wipbank.server.exception.NotFoundException;
 import de.fhdw.wipbank.server.exception.ServerException;
 import de.fhdw.wipbank.server.exception.ValidationException;
 import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.util.Validation;
-import org.apache.log4j.Logger;
-
-import java.sql.SQLException;
 
 public class UpdateAccount {
-
-    private static final Logger logger = Logger.getLogger(UpdateAccount.class);
 
     private AccountService accountService;
 

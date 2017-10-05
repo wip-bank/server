@@ -2,16 +2,12 @@ package de.fhdw.wipbank.server.main;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import de.fhdw.wipbank.server.business.CreateAccount;
 import de.fhdw.wipbank.server.business.FindAccountByNumber;
 import de.fhdw.wipbank.server.exception.NotFoundException;
-import de.fhdw.wipbank.server.exception.ValidationException;
 import de.fhdw.wipbank.server.model.Account;
-import de.fhdw.wipbank.server.rest.ResponseBuilder;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
 import de.fhdw.wipbank.server.util.TestDataHelper;
