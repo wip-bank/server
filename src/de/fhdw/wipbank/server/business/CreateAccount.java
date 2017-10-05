@@ -70,8 +70,12 @@ public class CreateAccount {
         }
     }
 
+    /** Prüft, ob der nächste Account, der erste Account nach dem Bankkonto ist.
+     * @param accounts Liste aller bereits vorhandenen Accounts
+     * @return Wenn die Liste der Accounts max. 1 Eintrag besitzt, so ist der nächste Account der erste Account (true).
+     */
     private boolean isFirstAccount(List<Account> accounts) {
-        return accounts.isEmpty() || accounts.get(0).getNumber() == "0000";
+        return accounts.size() <= 1;
     }
 
     /**

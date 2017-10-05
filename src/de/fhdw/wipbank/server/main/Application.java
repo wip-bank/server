@@ -1,13 +1,24 @@
 package de.fhdw.wipbank.server.main;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import de.fhdw.wipbank.server.business.CreateAccount;
+import de.fhdw.wipbank.server.business.FindAccountByNumber;
+import de.fhdw.wipbank.server.exception.NotFoundException;
+import de.fhdw.wipbank.server.exception.ValidationException;
 import de.fhdw.wipbank.server.model.Account;
+import de.fhdw.wipbank.server.rest.ResponseBuilder;
 import de.fhdw.wipbank.server.service.AccountService;
+import de.fhdw.wipbank.server.service.TransactionService;
 import de.fhdw.wipbank.server.util.TestDataHelper;
 
 public class Application {
+
+	private static Logger logger = Logger.getLogger(Application.class);
 
     /**
      * Einstieg in das Projekt
@@ -17,10 +28,44 @@ public class Application {
      */
     public static void main(String[] args) throws Exception {
         JettyServer.run();
+
+        initDB(); // Erzeugt Datenbanktabellen, wenn nicht vorhanden.
+
         /* Testbetrieb abgeschlossen -> Keine Testdaten mehr notwendig.
          * Bei weiterer Programmierung können die Testdaten jedoch wieder reaktiviert werden.
          * initTestData();
          */
+    }
+
+    /**
+     * Datenbanktabellen erzeugen, wenn nicht vorhanden.
+     */
+    private static void initDB(){
+    	AccountService accountService = new AccountService();
+    	TransactionService transactionService = new TransactionService();
+    	try {
+    		logger.info("Datenbank wird initialisiert");
+			accountService.createTable();
+			transactionService.createTable();
+			// Konto der Bank vorhanden?
+	        new FindAccountByNumber().findAccountByNumber("0000");
+
+		} catch (SQLException e) {
+			logger.error("Konnte Tabellen nicht erzeugen");
+		} catch (NotFoundException e) {
+			// Account "0000" nicht vorhanden -> neu erstellen
+			 Account account = new Account();
+	         account.setOwner("Bank");
+	         account.setNumber("0000");
+	         logger.info("Bankkonto wird erstellt: " + account);
+	         try {
+				accountService.create(account);
+			} catch (SQLException e1) {
+				logger.error("Konnte Bankkonto nicht erstellen");
+			}
+        } catch (Exception e) {
+			logger.error("Fehler initDB");
+		}
     }
 
     /**
