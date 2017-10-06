@@ -36,6 +36,7 @@ public class FindAccountByNumber {
      */
     private void checkParameter(String number) throws ValidationException {
         if (!Validation.isAccountNumberValid(number)) throw new ValidationException("Invalid account number");
+        if (number.equals("0000")) throw new ValidationException("You cannot login as 0000");
     }
 
     /**
