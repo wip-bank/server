@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+/**
+ * @author Philipp Dyck
+ * @author Daniel Sawenko
+ */
 public class Database {
 
 

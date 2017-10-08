@@ -8,6 +8,9 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.api.json.JSONJAXBContext;
 import de.fhdw.wipbank.server.model.*;
 
+/**
+ * @author Philipp Dyck
+ */
 @Provider
 public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 

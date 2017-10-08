@@ -1,5 +1,8 @@
 package de.fhdw.wipbank.server.exception;
 
+/**
+ * @author Philipp Dyck
+ */
 public class ServerException extends Exception {
 
     /**

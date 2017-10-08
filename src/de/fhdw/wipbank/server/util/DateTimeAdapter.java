@@ -7,7 +7,8 @@ import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * http://javarevisited.blogspot.de/2017/04/jaxb-date-format-example-using-annotation-XMLAdapter.html
+ * @author Jannis Christoph
+ * Quelle: http://javarevisited.blogspot.de/2017/04/jaxb-date-format-example-using-annotation-XMLAdapter.html
  *
  */
 public class DateTimeAdapter extends XmlAdapter<String, Date>{

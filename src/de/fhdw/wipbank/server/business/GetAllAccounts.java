@@ -7,6 +7,9 @@ import de.fhdw.wipbank.server.service.AccountService;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * @author Philipp Dyck
+ */
 public class GetAllAccounts {
 
     private AccountService accountService;

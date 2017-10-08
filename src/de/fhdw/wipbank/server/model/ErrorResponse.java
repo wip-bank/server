@@ -2,6 +2,9 @@ package de.fhdw.wipbank.server.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * @author Philipp Dyck
+ */
 @XmlRootElement
 public class ErrorResponse {
 

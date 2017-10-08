@@ -11,6 +11,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Philipp Dyck
+ */
 public class CreateAccount {
 
     private AccountService accountService;

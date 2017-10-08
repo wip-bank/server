@@ -2,6 +2,9 @@ package de.fhdw.wipbank.server.rest;
 
 import javax.ws.rs.core.Response;
 
+/**
+ * @author Philipp Dyck
+ */
 public class ResponseBuilder {
 
     /**

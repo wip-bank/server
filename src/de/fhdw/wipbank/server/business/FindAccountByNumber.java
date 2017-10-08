@@ -6,6 +6,9 @@ import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.util.Validation;
 
+/**
+ * @author Philipp Dyck
+ */
 public class FindAccountByNumber {
 
     private AccountService accountService;

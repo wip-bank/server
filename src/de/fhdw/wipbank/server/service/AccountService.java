@@ -9,6 +9,9 @@ import java.util.List;
 import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
 
+/**
+ * @author Philipp Dyck
+ */
 public class AccountService {
 
 	private static final String TABLE_NAME = "accounts";

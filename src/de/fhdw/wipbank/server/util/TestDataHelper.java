@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * @author Philipp Dyck
  * Helper Methoden für Testdaten
  */
 public class TestDataHelper {

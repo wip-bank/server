@@ -18,6 +18,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+/**
+ * @author Philipp Dyck
+ * @author Daniel Sawenko
+ */
 public class JettyServer {
 
 	/**

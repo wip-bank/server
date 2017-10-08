@@ -2,6 +2,10 @@ package de.fhdw.wipbank.server.util;
 
 import java.math.BigDecimal;
 
+/**
+ * @author Daniel Sawenko
+ * @author Jannis Christoph
+ */
 public class Validation {
 
     /**

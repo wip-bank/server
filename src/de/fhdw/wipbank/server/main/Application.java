@@ -12,6 +12,10 @@ import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
 import de.fhdw.wipbank.server.util.TestDataHelper;
 
+/**
+ * @author Philipp Dyck
+ * @author Daniel Sawenko
+ */
 public class Application {
 
 	private static Logger logger = Logger.getLogger(Application.class);

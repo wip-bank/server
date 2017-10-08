@@ -14,6 +14,9 @@ import de.fhdw.wipbank.server.service.AccountService;
 import de.fhdw.wipbank.server.service.TransactionService;
 import de.fhdw.wipbank.server.util.Validation;
 
+/**
+ * @author Philipp Dyck
+ */
 public class ExecuteTransaction {
 
     private AccountService accountService;

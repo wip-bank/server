@@ -12,6 +12,9 @@ import de.fhdw.wipbank.server.db.Database;
 import de.fhdw.wipbank.server.model.Account;
 import de.fhdw.wipbank.server.model.Transaction;
 
+/**
+ * @author Philipp Dyck
+ */
 public class TransactionService {
 
     private static final String INSERT_TRANSACTION = "insert into transactions (senderNumber, receiverNumber, amount, reference, transactionDate) values (?, ?, ?, ?, ?)";

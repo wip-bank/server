@@ -19,7 +19,9 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-
+/**
+ * @author Philipp Dyck
+ */
 @Path("/transaction")
 @Singleton
 public class TransactionResource {
